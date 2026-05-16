@@ -1,0 +1,35 @@
+name: 001_baseline_tfidf_logreg
+description: "Первый baseline: TF-IDF + LogisticRegression, подбор порогов по proxy micro-F1."
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+features:
+  repeat_assigned: 2
+  include_month: true
+vectorizer:
+  min_df: 2
+  max_df: 0.95
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 120000
+any_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+factor_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+prediction:
+  objective: old_proxy
+  any_threshold_grid: [0.15, 0.7, 0.05]
+  factor_threshold_grid: [0.15, 0.7, 0.05]
+  max_factors: 99
+  fallback_top_factor: true

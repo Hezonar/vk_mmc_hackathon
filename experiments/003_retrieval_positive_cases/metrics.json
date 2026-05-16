@@ -1,0 +1,30 @@
+{
+  "experiment": "003_retrieval_positive_cases",
+  "rows_train_total": 24861,
+  "rows_positive_fit": 797,
+  "rows_validation": 7459,
+  "rows_test": 6215,
+  "target_positive_rate": 0.045775,
+  "best_params": {
+    "top_k": 40,
+    "any_threshold": 0.04,
+    "factor_threshold": 0.22,
+    "max_factors": 1,
+    "same_factor_bonus": 1.0,
+    "prior_weight": 0.0,
+    "min_shared_assigned": 1
+  },
+  "best_metrics": {
+    "autonomous_score": 0.427239,
+    "alpha": 0.5,
+    "any_precision": 0.051158,
+    "any_recall": 0.991202,
+    "any_f1": 0.097294,
+    "factor_jaccard_on_true_positive_rows": 0.757185,
+    "positive_rate_true": 0.045717,
+    "positive_rate_pred": 0.885776
+  },
+  "grid_combinations_tried": 1728,
+  "submission_positive_rows": 5531,
+  "submission_positive_rate": 0.889944
+}

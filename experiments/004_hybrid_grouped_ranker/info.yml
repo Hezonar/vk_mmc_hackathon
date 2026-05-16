@@ -1,0 +1,16 @@
+status: done
+hypothesis: 'Лучшее из exp002 и exp003: binary-решение контролируется логрегрессией,
+  а причины ранжируются смесью model/retrieval/prior. Group split должен дать честнее
+  пороги.'
+local_validation:
+  autonomous_score_alpha_0_5: 0.492897
+  objective: 0.488933
+  any_f1: 0.307256
+  jaccard: 0.678538
+  positive_rate_pred: 0.191327
+  positive_rate_true: 0.045516
+leaderboard: {}
+outputs:
+  submission: experiments\004_hybrid_grouped_ranker\submission.csv
+  validation_predictions: experiments/004_hybrid_grouped_ranker/validation_predictions.csv
+  metrics: experiments/004_hybrid_grouped_ranker/metrics.json

@@ -1,0 +1,46 @@
+name: 008_candidate_factor_thresholds
+description: "Candidate-level model from exp006, but with factor-specific thresholds optimized on validation."
+base_experiment: experiments/006_candidate_factor_binary/train.py
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+features:
+  repeat_assigned: 1
+  include_month: true
+  candidate_repeats: 10
+  candidate_pair_repeats: 3
+word_vectorizer:
+  min_df: 2
+  max_df: 0.96
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 180000
+char_vectorizer:
+  analyzer: char_wb
+  min_df: 3
+  max_df: 0.98
+  ngram_range: [3, 5]
+  sublinear_tf: true
+  max_features: 90000
+model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight:
+    0: 1.0
+    1: 16.0
+prediction:
+  global_threshold_grid: [0.35, 0.9, 0.01]
+  per_factor_min_candidates: 30
+  per_factor_threshold_grid: [0.25, 0.95, 0.025]
+  coordinate_passes: 2
+  target_positive_rate: 0.085
+  positive_rate_soft_min: 0.055
+  positive_rate_soft_max: 0.12
+  positive_rate_penalty: 1.25
+  jaccard_weight_bonus: 0.05

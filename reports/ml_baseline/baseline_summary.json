@@ -1,0 +1,27 @@
+{
+  "train_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\data\\train2.csv",
+  "test_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\data\\test2.csv",
+  "rows_train_total": 24861,
+  "rows_train_fit": 17402,
+  "rows_validation": 7459,
+  "rows_test": 6215,
+  "target_positive_rate": 0.0458,
+  "n_factor_classes": 68,
+  "best_thresholds": {
+    "any_threshold": 0.7,
+    "factor_threshold": 0.7
+  },
+  "validation_metrics": {
+    "any_precision": 0.3116,
+    "any_recall": 0.5337,
+    "any_f1": 0.3935,
+    "factor_micro_f1": 0.344,
+    "factor_samples_f1": 0.9216,
+    "positive_rate_pred": 0.0783,
+    "positive_rate_true": 0.0457
+  },
+  "submission_positive_rows": 527,
+  "submission_positive_rate": 0.0848,
+  "submission_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\reports\\ml_baseline\\submission_baseline.csv",
+  "validation_predictions_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\reports\\ml_baseline\\validation_predictions.csv"
+}

@@ -1,0 +1,29 @@
+{
+  "experiment": "002_autonomous_tuned",
+  "train_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\data\\train2.csv",
+  "test_path": "C:\\Users\\Laptop\\Desktop\\Projects\\vk_mmc_hackathon\\data\\test2.csv",
+  "rows_train_total": 24861,
+  "rows_train_fit": 17402,
+  "rows_validation": 7459,
+  "rows_test": 6215,
+  "n_factor_classes": 68,
+  "target_positive_rate": 0.045775,
+  "best_params": {
+    "any_threshold": 0.3,
+    "factor_threshold": 0.75,
+    "max_factors": 3,
+    "fallback_top_factor": true
+  },
+  "best_metrics": {
+    "autonomous_score": 0.483131,
+    "alpha": 0.5,
+    "any_precision": 0.143961,
+    "any_recall": 0.8739,
+    "any_f1": 0.2472,
+    "factor_jaccard_on_true_positive_rows": 0.719062,
+    "positive_rate_true": 0.045717,
+    "positive_rate_pred": 0.277517
+  },
+  "submission_positive_rows": 1778,
+  "submission_positive_rate": 0.286082
+}

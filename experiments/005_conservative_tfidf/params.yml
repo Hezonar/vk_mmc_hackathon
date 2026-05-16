@@ -1,0 +1,48 @@
+name: 005_conservative_tfidf
+description: "Exp001-style conservative model: word+char TF-IDF, no retrieval, positive-rate constrained threshold tuning."
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+features:
+  repeat_assigned: 2
+  include_month: true
+word_vectorizer:
+  min_df: 2
+  max_df: 0.95
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 120000
+char_vectorizer:
+  analyzer: char_wb
+  min_df: 3
+  max_df: 0.98
+  ngram_range: [3, 5]
+  sublinear_tf: true
+  max_features: 80000
+any_model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight:
+    0: 1.0
+    1: 12.0
+factor_model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight: balanced
+prediction:
+  any_threshold_grid: [0.35, 0.9, 0.025]
+  factor_threshold_grid: [0.35, 0.9, 0.025]
+  max_factors_grid: [1, 2, 3]
+  fallback_top_factor_grid: [true, false]
+  target_positive_rate: 0.085
+  positive_rate_soft_min: 0.055
+  positive_rate_soft_max: 0.115
+  positive_rate_penalty: 1.25
+  jaccard_weight_bonus: 0.05

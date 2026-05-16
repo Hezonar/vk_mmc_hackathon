@@ -1,0 +1,14 @@
+status: done
+hypothesis: Для редких противопоказаний похожие позитивные прецеденты могут лучше
+  подсказать конкретный factor, чем независимые one-vs-rest классификаторы.
+local_validation:
+  autonomous_score_alpha_0_5: 0.427239
+  any_f1: 0.097294
+  jaccard: 0.757185
+  positive_rate_pred: 0.885776
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\003_retrieval_positive_cases\submission.csv
+  validation_predictions: experiments/003_retrieval_positive_cases/validation_predictions.csv
+  metrics: experiments/003_retrieval_positive_cases/metrics.json

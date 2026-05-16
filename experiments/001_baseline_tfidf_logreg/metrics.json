@@ -1,0 +1,14 @@
+{
+  "experiment": "001_baseline_tfidf_logreg",
+  "validation_metrics": {
+    "autonomous_score": 0.417749,
+    "alpha": 0.5,
+    "any_precision": 0.311644,
+    "any_recall": 0.533724,
+    "any_f1": 0.393514,
+    "factor_jaccard_on_true_positive_rows": 0.441984,
+    "positive_rate_true": 0.045717,
+    "positive_rate_pred": 0.078295
+  },
+  "source": "reports/ml_baseline/validation_predictions.csv"
+}

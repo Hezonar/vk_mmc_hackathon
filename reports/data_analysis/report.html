@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Анализ train/test CSV</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:28px;color:#111827;background:#fff}
+    h1,h2,h3{margin:22px 0 10px}
+    section{border-top:1px solid #d1d5db;padding-top:18px}
+    svg{max-width:100%;height:auto;margin:10px 0 18px;border:1px solid #e5e7eb}
+    table{border-collapse:collapse;width:100%;font-size:13px;margin:8px 0 24px}
+    th,td{border:1px solid #d1d5db;padding:6px 8px;text-align:left;vertical-align:top}
+    th{background:#f3f4f6}
+    code{background:#f3f4f6;padding:1px 4px;border-radius:3px}
+  </style>
+</head>
+<body>
+  <h1>Анализ медицинских CSV</h1>
+  <p>Сгенерировано: 2026-05-16T10:59:44.705Z. Полные численные данные лежат в <code>analysis.json</code>.</p>
+  <section>
+    <h2>Train/Test</h2>
+    <p><b>Колонки только в train:</b> medical_exam_id, profpathologist_conclusion, health_group, mkb_code, mkb_description, contraindicated_factors, has_contraindications.</p>
+    <p><b>Колонки только в test:</b> нет.</p>
+    <p><b>Факторы только в test:</b> нет.</p>
+    <p><b>Специалисты только в test:</b> нет.</p>
+  </section>
+  
+    <section>
+      <h2>train.csv</h2>
+      <p><b>Строк:</b> 24 861 · <b>колонок:</b> 12 · <b>пациентов:</b> 20 253 · <b>период:</b> 2025-01-09 ... 2026-04-21</p>
+      <svg viewBox="0 0 900 420" role="img" aria-label="Записи по месяцам"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Записи по месяцам</text><text x="220" y="55" text-anchor="end">2025-01</text><rect x="230" y="42" width="310" height="16" rx="3"/><text x="546" y="55">1008</text>
+<text x="220" y="76" text-anchor="end">2025-02</text><rect x="230" y="63" width="581" height="16" rx="3"/><text x="817" y="76">1890</text>
+<text x="220" y="97" text-anchor="end">2025-03</text><rect x="230" y="84" width="536" height="16" rx="3"/><text x="772" y="97">1744</text>
+<text x="220" y="118" text-anchor="end">2025-04</text><rect x="230" y="105" width="596" height="16" rx="3"/><text x="832" y="118">1939</text>
+<text x="220" y="139" text-anchor="end">2025-05</text><rect x="230" y="126" width="522" height="16" rx="3"/><text x="758" y="139">1700</text>
+<text x="220" y="160" text-anchor="end">2025-06</text><rect x="230" y="147" width="395" height="16" rx="3"/><text x="631" y="160">1287</text>
+<text x="220" y="181" text-anchor="end">2025-07</text><rect x="230" y="168" width="528" height="16" rx="3"/><text x="764" y="181">1718</text>
+<text x="220" y="202" text-anchor="end">2025-08</text><rect x="230" y="189" width="418" height="16" rx="3"/><text x="654" y="202">1360</text>
+<text x="220" y="223" text-anchor="end">2025-09</text><rect x="230" y="210" width="398" height="16" rx="3"/><text x="634" y="223">1297</text>
+<text x="220" y="244" text-anchor="end">2025-10</text><rect x="230" y="231" width="646" height="16" rx="3"/><text x="882" y="244">2103</text>
+<text x="220" y="265" text-anchor="end">2025-11</text><rect x="230" y="252" width="521" height="16" rx="3"/><text x="757" y="265">1696</text>
+<text x="220" y="286" text-anchor="end">2025-12</text><rect x="230" y="273" width="448" height="16" rx="3"/><text x="684" y="286">1458</text>
+<text x="220" y="307" text-anchor="end">2026-01</text><rect x="230" y="294" width="312" height="16" rx="3"/><text x="548" y="307">1017</text>
+<text x="220" y="328" text-anchor="end">2026-02</text><rect x="230" y="315" width="535" height="16" rx="3"/><text x="771" y="328">1743</text>
+<text x="220" y="349" text-anchor="end">2026-03</text><rect x="230" y="336" width="519" height="16" rx="3"/><text x="755" y="349">1688</text>
+<text x="220" y="370" text-anchor="end">2026-04</text><rect x="230" y="357" width="373" height="16" rx="3"/><text x="609" y="370">1213</text></svg>
+      <svg viewBox="0 0 760 160" role="img" aria-label="Целевая переменная has_contraindications"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Целевая переменная has_contraindications</text><text x="220" y="55" text-anchor="end">false</text><rect x="230" y="42" width="506" height="33" rx="3"/><text x="742" y="55">23723</text>
+<text x="220" y="93" text-anchor="end">true</text><rect x="230" y="80" width="24" height="33" rx="3"/><text x="260" y="93">1138</text></svg>
+      <svg viewBox="0 0 900 444" role="img" aria-label="Топ вредных факторов"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ вредных факторов</text><text x="220" y="55" text-anchor="end">6.1</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">10807</text>
+<text x="220" y="73" text-anchor="end">5.1</text><rect x="230" y="60" width="574" height="13" rx="3"/><text x="810" y="73">9596</text>
+<text x="220" y="91" text-anchor="end">4.4</text><rect x="230" y="78" width="549" height="13" rx="3"/><text x="785" y="91">9185</text>
+<text x="220" y="109" text-anchor="end">13</text><rect x="230" y="96" width="547" height="13" rx="3"/><text x="783" y="109">9149</text>
+<text x="220" y="127" text-anchor="end">12</text><rect x="230" y="114" width="468" height="13" rx="3"/><text x="704" y="127">7833</text>
+<text x="220" y="145" text-anchor="end">1.37.1</text><rect x="230" y="132" width="258" height="13" rx="3"/><text x="494" y="145">4319</text>
+<text x="220" y="163" text-anchor="end">6.2</text><rect x="230" y="150" width="246" height="13" rx="3"/><text x="482" y="163">4108</text>
+<text x="220" y="181" text-anchor="end">1.36</text><rect x="230" y="168" width="241" height="13" rx="3"/><text x="477" y="181">4034</text>
+<text x="220" y="199" text-anchor="end">1.36.1</text><rect x="230" y="186" width="200" height="13" rx="3"/><text x="436" y="199">3348</text>
+<text x="220" y="217" text-anchor="end">27</text><rect x="230" y="204" width="196" height="13" rx="3"/><text x="432" y="217">3272</text>
+<text x="220" y="235" text-anchor="end">1.30.1</text><rect x="230" y="222" width="170" height="13" rx="3"/><text x="406" y="235">2846</text>
+<text x="220" y="253" text-anchor="end">9</text><rect x="230" y="240" width="164" height="13" rx="3"/><text x="400" y="253">2745</text>
+<text x="220" y="271" text-anchor="end">17</text><rect x="230" y="258" width="139" height="13" rx="3"/><text x="375" y="271">2333</text>
+<text x="220" y="289" text-anchor="end">1.24</text><rect x="230" y="276" width="129" height="13" rx="3"/><text x="365" y="289">2155</text>
+<text x="220" y="307" text-anchor="end">1.3</text><rect x="230" y="294" width="117" height="13" rx="3"/><text x="353" y="307">1953</text>
+<text x="220" y="325" text-anchor="end">1.1</text><rect x="230" y="312" width="103" height="13" rx="3"/><text x="339" y="325">1722</text>
+<text x="220" y="343" text-anchor="end">1.36.2</text><rect x="230" y="330" width="100" height="13" rx="3"/><text x="336" y="343">1676</text>
+<text x="220" y="361" text-anchor="end">2.4.3</text><rect x="230" y="348" width="94" height="13" rx="3"/><text x="330" y="361">1566</text>
+<text x="220" y="379" text-anchor="end">1.50</text><rect x="230" y="366" width="88" height="13" rx="3"/><text x="324" y="379">1474</text>
+<text x="220" y="397" text-anchor="end">4.3.2</text><rect x="230" y="384" width="87" height="13" rx="3"/><text x="323" y="397">1454</text></svg>
+      <svg viewBox="0 0 900 444" role="img" aria-label="Вредные факторы с высокой долей противопоказаний"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Вредные факторы с высокой долей противопоказаний</text><text x="220" y="55" text-anchor="end">3.2 (9/51)</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">17.65</text>
+<text x="220" y="73" text-anchor="end">1.45.1 (5/34)</text><rect x="230" y="60" width="538" height="13" rx="3"/><text x="774" y="73">14.71</text>
+<text x="220" y="91" text-anchor="end">1.17 (38/278)</text><rect x="230" y="78" width="500" height="13" rx="3"/><text x="736" y="91">13.67</text>
+<text x="220" y="109" text-anchor="end">4.2.2 (5/40)</text><rect x="230" y="96" width="458" height="13" rx="3"/><text x="694" y="109">12.5</text>
+<text x="220" y="127" text-anchor="end">3.1.8.3 (8/69)</text><rect x="230" y="114" width="424" height="13" rx="3"/><text x="660" y="127">11.59</text>
+<text x="220" y="145" text-anchor="end">17 (256/2333)</text><rect x="230" y="132" width="402" height="13" rx="3"/><text x="638" y="145">10.97</text>
+<text x="220" y="163" text-anchor="end">1.38 (3/31)</text><rect x="230" y="150" width="354" height="13" rx="3"/><text x="590" y="163">9.68</text>
+<text x="220" y="181" text-anchor="end">3.1.2 (35/377)</text><rect x="230" y="168" width="340" height="13" rx="3"/><text x="576" y="181">9.28</text>
+<text x="220" y="199" text-anchor="end">1.39 (81/923)</text><rect x="230" y="186" width="321" height="13" rx="3"/><text x="557" y="199">8.78</text>
+<text x="220" y="217" text-anchor="end">1.50 (127/1474)</text><rect x="230" y="204" width="315" height="13" rx="3"/><text x="551" y="217">8.62</text>
+<text x="220" y="235" text-anchor="end">14 (92/1085)</text><rect x="230" y="222" width="310" height="13" rx="3"/><text x="546" y="235">8.48</text>
+<text x="220" y="253" text-anchor="end">1.1 (145/1722)</text><rect x="230" y="240" width="308" height="13" rx="3"/><text x="544" y="253">8.42</text>
+<text x="220" y="271" text-anchor="end">1.29.1 (43/517)</text><rect x="230" y="258" width="305" height="13" rx="3"/><text x="541" y="271">8.32</text>
+<text x="220" y="289" text-anchor="end">4.2.4 (5/61)</text><rect x="230" y="276" width="300" height="13" rx="3"/><text x="536" y="289">8.2</text>
+<text x="220" y="307" text-anchor="end">6.1 (847/10807)</text><rect x="230" y="294" width="287" height="13" rx="3"/><text x="523" y="307">7.84</text>
+<text x="220" y="325" text-anchor="end">1.8.4.1 (11/142)</text><rect x="230" y="312" width="284" height="13" rx="3"/><text x="520" y="325">7.75</text>
+<text x="220" y="343" text-anchor="end">6 (35/454)</text><rect x="230" y="330" width="282" height="13" rx="3"/><text x="518" y="343">7.71</text>
+<text x="220" y="361" text-anchor="end">1.37.1.1 (4/52)</text><rect x="230" y="348" width="281" height="13" rx="3"/><text x="517" y="361">7.69</text>
+<text x="220" y="379" text-anchor="end">1.19.1 (85/1131)</text><rect x="230" y="366" width="275" height="13" rx="3"/><text x="511" y="379">7.52</text>
+<text x="220" y="397" text-anchor="end">13 (674/9149)</text><rect x="230" y="384" width="270" height="13" rx="3"/><text x="506" y="397">7.37</text></svg>
+      <svg viewBox="0 0 900 444" role="img" aria-label="Топ специалистов во вложенных заключениях"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ специалистов во вложенных заключениях</text><text x="220" y="55" text-anchor="end">Врач Терапевт</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">22518</text>
+<text x="220" y="73" text-anchor="end">Врач Невролог</text><rect x="230" y="60" width="631" height="13" rx="3"/><text x="867" y="73">21995</text>
+<text x="220" y="91" text-anchor="end">Врач Оториноларинголог</text><rect x="230" y="78" width="605" height="13" rx="3"/><text x="841" y="91">21103</text>
+<text x="220" y="109" text-anchor="end">Врач Офтальмолог</text><rect x="230" y="96" width="590" height="13" rx="3"/><text x="826" y="109">20559</text>
+<text x="220" y="127" text-anchor="end">Электрокардиография</text><rect x="230" y="114" width="552" height="13" rx="3"/><text x="788" y="127">19245</text>
+<text x="220" y="145" text-anchor="end">Врач Психиатр-Нарколог</text><rect x="230" y="132" width="474" height="13" rx="3"/><text x="710" y="145">16521</text>
+<text x="220" y="163" text-anchor="end">Врач Хирург</text><rect x="230" y="150" width="445" height="13" rx="3"/><text x="681" y="163">15503</text>
+<text x="220" y="181" text-anchor="end">Аудиометрия</text><rect x="230" y="168" width="361" height="13" rx="3"/><text x="597" y="181">12596</text>
+<text x="220" y="199" text-anchor="end">Рентген</text><rect x="230" y="186" width="324" height="13" rx="3"/><text x="560" y="199">11309</text>
+<text x="220" y="217" text-anchor="end">Врач Стоматолог</text><rect x="230" y="204" width="324" height="13" rx="3"/><text x="560" y="217">11285</text>
+<text x="220" y="235" text-anchor="end">Спирометрия</text><rect x="230" y="222" width="311" height="13" rx="3"/><text x="547" y="235">10842</text>
+<text x="220" y="253" text-anchor="end">Врач Дерматовенеролог</text><rect x="230" y="240" width="307" height="13" rx="3"/><text x="543" y="253">10711</text>
+<text x="220" y="271" text-anchor="end">Врач Акушер-гинеколог</text><rect x="230" y="258" width="156" height="13" rx="3"/><text x="392" y="271">5433</text>
+<text x="220" y="289" text-anchor="end">УЗИ ОБП</text><rect x="230" y="276" width="150" height="13" rx="3"/><text x="386" y="289">5220</text>
+<text x="220" y="307" text-anchor="end">УЗИ ОМТ</text><rect x="230" y="294" width="123" height="13" rx="3"/><text x="359" y="307">4285</text>
+<text x="220" y="325" text-anchor="end">Электроэнцефалограмма</text><rect x="230" y="312" width="21" height="13" rx="3"/><text x="257" y="325">717</text>
+<text x="220" y="343" text-anchor="end">УЗИ доп. исследования</text><rect x="230" y="330" width="2" height="13" rx="3"/><text x="238" y="343">13</text>
+<text x="220" y="361" text-anchor="end">УЗИ Вен</text><rect x="230" y="348" width="2" height="13" rx="3"/><text x="238" y="361">8</text>
+<text x="220" y="379" text-anchor="end">Выполнение процедуры</text><rect x="230" y="366" width="2" height="13" rx="3"/><text x="238" y="379">4</text>
+<text x="220" y="397" text-anchor="end">Эндоскопическое исследование</text><rect x="230" y="384" width="2" height="13" rx="3"/><text x="238" y="397">1</text></svg>
+      <svg viewBox="0 0 900 444" role="img" aria-label="Топ МКБ во вложенных заключениях"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ МКБ во вложенных заключениях</text><text x="220" y="55" text-anchor="end">Z00.0</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">99919</text>
+<text x="220" y="73" text-anchor="end">J34.2</text><rect x="230" y="60" width="37" height="13" rx="3"/><text x="273" y="73">5704</text>
+<text x="220" y="91" text-anchor="end">H52.1</text><rect x="230" y="78" width="35" height="13" rx="3"/><text x="271" y="91">5346</text>
+<text x="220" y="109" text-anchor="end">Z01.2</text><rect x="230" y="96" width="21" height="13" rx="3"/><text x="257" y="109">3276</text>
+<text x="220" y="127" text-anchor="end">M42.1</text><rect x="230" y="114" width="21" height="13" rx="3"/><text x="257" y="127">3225</text>
+<text x="220" y="145" text-anchor="end">K02.9</text><rect x="230" y="132" width="13" height="13" rx="3"/><text x="249" y="145">2069</text>
+<text x="220" y="163" text-anchor="end">I10</text><rect x="230" y="150" width="13" height="13" rx="3"/><text x="249" y="163">2041</text>
+<text x="220" y="181" text-anchor="end">H52.4</text><rect x="230" y="168" width="13" height="13" rx="3"/><text x="249" y="181">2005</text>
+<text x="220" y="199" text-anchor="end">K02.1</text><rect x="230" y="186" width="12" height="13" rx="3"/><text x="248" y="199">1911</text>
+<text x="220" y="217" text-anchor="end">H52.2</text><rect x="230" y="204" width="10" height="13" rx="3"/><text x="246" y="217">1573</text>
+<text x="220" y="235" text-anchor="end">I11.9</text><rect x="230" y="222" width="9" height="13" rx="3"/><text x="245" y="235">1465</text>
+<text x="220" y="253" text-anchor="end">H52.0</text><rect x="230" y="240" width="9" height="13" rx="3"/><text x="245" y="253">1375</text>
+<text x="220" y="271" text-anchor="end">E66</text><rect x="230" y="258" width="7" height="13" rx="3"/><text x="243" y="271">1133</text>
+<text x="220" y="289" text-anchor="end">Z00.8</text><rect x="230" y="276" width="7" height="13" rx="3"/><text x="243" y="289">1098</text>
+<text x="220" y="307" text-anchor="end">Z72</text><rect x="230" y="294" width="6" height="13" rx="3"/><text x="242" y="307">971</text>
+<text x="220" y="325" text-anchor="end">H90.3</text><rect x="230" y="312" width="5" height="13" rx="3"/><text x="241" y="325">846</text>
+<text x="220" y="343" text-anchor="end">Z00</text><rect x="230" y="330" width="5" height="13" rx="3"/><text x="241" y="343">821</text>
+<text x="220" y="361" text-anchor="end">D25</text><rect x="230" y="348" width="4" height="13" rx="3"/><text x="240" y="361">650</text>
+<text x="220" y="379" text-anchor="end">J35.0</text><rect x="230" y="366" width="3" height="13" rx="3"/><text x="239" y="379">523</text>
+<text x="220" y="397" text-anchor="end">I83.9</text><rect x="230" y="384" width="3" height="13" rx="3"/><text x="239" y="397">451</text></svg>
+      <svg viewBox="0 0 760 260" role="img" aria-label="Группы здоровья верхнего уровня"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Группы здоровья верхнего уровня</text><text x="220" y="55" text-anchor="end">2 группа</text><rect x="230" y="42" width="506" height="39" rx="3"/><text x="742" y="55">11911</text>
+<text x="220" y="99" text-anchor="end">3а группа</text><rect x="230" y="86" width="229" height="39" rx="3"/><text x="465" y="99">5388</text>
+<text x="220" y="143" text-anchor="end">1 группа</text><rect x="230" y="130" width="196" height="39" rx="3"/><text x="432" y="143">4609</text>
+<text x="220" y="187" text-anchor="end">3б группа</text><rect x="230" y="174" width="124" height="39" rx="3"/><text x="360" y="187">2916</text></svg>
+      <h3>Колонки: пропуски, уникальность, длины</h3>
+      <table><thead><tr><th>Колонка</th><th>Пропусков</th><th>%</th><th>Уникальных</th><th>Средняя длина</th><th>Макс. длина</th></tr></thead><tbody><tr><td>exam_row_id</td><td>0</td><td>0%</td><td>24861</td><td>10</td><td>10</td></tr><tr><td>medical_exam_id</td><td>0</td><td>0%</td><td>24855</td><td>10</td><td>10</td></tr><tr><td>patient_id</td><td>0</td><td>0%</td><td>20253</td><td>6.3</td><td>8</td></tr><tr><td>consultation_date</td><td>0</td><td>0%</td><td>24837</td><td>23</td><td>23</td></tr><tr><td>profpathologist_conclusion</td><td>6747</td><td>27.14%</td><td>8854</td><td>99.4</td><td>1176</td></tr><tr><td>health_group</td><td>37</td><td>0.15%</td><td>4</td><td>8.3</td><td>9</td></tr><tr><td>mkb_code</td><td>393</td><td>1.58%</td><td>561</td><td>4.8</td><td>5</td></tr><tr><td>mkb_description</td><td>393</td><td>1.58%</td><td>561</td><td>32.5</td><td>134</td></tr><tr><td>assigned_harmful_factors</td><td>1</td><td>0%</td><td>1976</td><td>22.5</td><td>1019</td></tr><tr><td>specialist_conclusions</td><td>0</td><td>0%</td><td>23856</td><td>1938.6</td><td>4961</td></tr><tr><td>contraindicated_factors</td><td>23723</td><td>95.42%</td><td>135</td><td>5</td><td>142</td></tr><tr><td>has_contraindications</td><td>0</td><td>0%</td><td>2</td><td>5</td><td>5</td></tr></tbody></table>
+    </section>
+  
+    <section>
+      <h2>test.csv</h2>
+      <p><b>Строк:</b> 6 215 · <b>колонок:</b> 5 · <b>пациентов:</b> 5 907 · <b>период:</b> 2025-01-10 ... 2026-04-21</p>
+      <svg viewBox="0 0 900 420" role="img" aria-label="Записи по месяцам"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Записи по месяцам</text><text x="220" y="55" text-anchor="end">2025-01</text><rect x="230" y="42" width="347" height="16" rx="3"/><text x="583" y="55">277</text>
+<text x="220" y="76" text-anchor="end">2025-02</text><rect x="230" y="63" width="592" height="16" rx="3"/><text x="828" y="76">472</text>
+<text x="220" y="97" text-anchor="end">2025-03</text><rect x="230" y="84" width="552" height="16" rx="3"/><text x="788" y="97">440</text>
+<text x="220" y="118" text-anchor="end">2025-04</text><rect x="230" y="105" width="615" height="16" rx="3"/><text x="851" y="118">490</text>
+<text x="220" y="139" text-anchor="end">2025-05</text><rect x="230" y="126" width="593" height="16" rx="3"/><text x="829" y="139">473</text>
+<text x="220" y="160" text-anchor="end">2025-06</text><rect x="230" y="147" width="411" height="16" rx="3"/><text x="647" y="160">328</text>
+<text x="220" y="181" text-anchor="end">2025-07</text><rect x="230" y="168" width="524" height="16" rx="3"/><text x="760" y="181">418</text>
+<text x="220" y="202" text-anchor="end">2025-08</text><rect x="230" y="189" width="425" height="16" rx="3"/><text x="661" y="202">339</text>
+<text x="220" y="223" text-anchor="end">2025-09</text><rect x="230" y="210" width="360" height="16" rx="3"/><text x="596" y="223">287</text>
+<text x="220" y="244" text-anchor="end">2025-10</text><rect x="230" y="231" width="646" height="16" rx="3"/><text x="882" y="244">515</text>
+<text x="220" y="265" text-anchor="end">2025-11</text><rect x="230" y="252" width="500" height="16" rx="3"/><text x="736" y="265">399</text>
+<text x="220" y="286" text-anchor="end">2025-12</text><rect x="230" y="273" width="437" height="16" rx="3"/><text x="673" y="286">348</text>
+<text x="220" y="307" text-anchor="end">2026-01</text><rect x="230" y="294" width="307" height="16" rx="3"/><text x="543" y="307">245</text>
+<text x="220" y="328" text-anchor="end">2026-02</text><rect x="230" y="315" width="577" height="16" rx="3"/><text x="813" y="328">460</text>
+<text x="220" y="349" text-anchor="end">2026-03</text><rect x="230" y="336" width="549" height="16" rx="3"/><text x="785" y="349">438</text>
+<text x="220" y="370" text-anchor="end">2026-04</text><rect x="230" y="357" width="359" height="16" rx="3"/><text x="595" y="370">286</text></svg>
+      
+      <svg viewBox="0 0 900 444" role="img" aria-label="Топ вредных факторов"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ вредных факторов</text><text x="220" y="55" text-anchor="end">6.1</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">2711</text>
+<text x="220" y="73" text-anchor="end">5.1</text><rect x="230" y="60" width="577" height="13" rx="3"/><text x="813" y="73">2423</text>
+<text x="220" y="91" text-anchor="end">4.4</text><rect x="230" y="78" width="563" height="13" rx="3"/><text x="799" y="91">2362</text>
+<text x="220" y="109" text-anchor="end">13</text><rect x="230" y="96" width="543" height="13" rx="3"/><text x="779" y="109">2280</text>
+<text x="220" y="127" text-anchor="end">12</text><rect x="230" y="114" width="481" height="13" rx="3"/><text x="717" y="127">2019</text>
+<text x="220" y="145" text-anchor="end">1.37.1</text><rect x="230" y="132" width="267" height="13" rx="3"/><text x="503" y="145">1119</text>
+<text x="220" y="163" text-anchor="end">1.36</text><rect x="230" y="150" width="250" height="13" rx="3"/><text x="486" y="163">1051</text>
+<text x="220" y="181" text-anchor="end">6.2</text><rect x="230" y="168" width="244" height="13" rx="3"/><text x="480" y="181">1026</text>
+<text x="220" y="199" text-anchor="end">1.36.1</text><rect x="230" y="186" width="210" height="13" rx="3"/><text x="446" y="199">881</text>
+<text x="220" y="217" text-anchor="end">27</text><rect x="230" y="204" width="178" height="13" rx="3"/><text x="414" y="217">748</text>
+<text x="220" y="235" text-anchor="end">9</text><rect x="230" y="222" width="169" height="13" rx="3"/><text x="405" y="235">709</text>
+<text x="220" y="253" text-anchor="end">1.30.1</text><rect x="230" y="240" width="168" height="13" rx="3"/><text x="404" y="253">705</text>
+<text x="220" y="271" text-anchor="end">1.24</text><rect x="230" y="258" width="135" height="13" rx="3"/><text x="371" y="271">568</text>
+<text x="220" y="289" text-anchor="end">17</text><rect x="230" y="276" width="134" height="13" rx="3"/><text x="370" y="289">561</text>
+<text x="220" y="307" text-anchor="end">1.3</text><rect x="230" y="294" width="123" height="13" rx="3"/><text x="359" y="307">516</text>
+<text x="220" y="325" text-anchor="end">1.36.2</text><rect x="230" y="312" width="107" height="13" rx="3"/><text x="343" y="325">449</text>
+<text x="220" y="343" text-anchor="end">1.1</text><rect x="230" y="330" width="102" height="13" rx="3"/><text x="338" y="343">429</text>
+<text x="220" y="361" text-anchor="end">4.3.2</text><rect x="230" y="348" width="89" height="13" rx="3"/><text x="325" y="361">372</text>
+<text x="220" y="379" text-anchor="end">1.34.1</text><rect x="230" y="366" width="87" height="13" rx="3"/><text x="323" y="379">366</text>
+<text x="220" y="397" text-anchor="end">1.50</text><rect x="230" y="384" width="82" height="13" rx="3"/><text x="318" y="397">344</text></svg>
+      
+      <svg viewBox="0 0 900 426" role="img" aria-label="Топ специалистов во вложенных заключениях"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ специалистов во вложенных заключениях</text><text x="220" y="55" text-anchor="end">Врач Терапевт</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">5642</text>
+<text x="220" y="73" text-anchor="end">Врач Невролог</text><rect x="230" y="60" width="630" height="13" rx="3"/><text x="866" y="73">5504</text>
+<text x="220" y="91" text-anchor="end">Врач Оториноларинголог</text><rect x="230" y="78" width="606" height="13" rx="3"/><text x="842" y="91">5296</text>
+<text x="220" y="109" text-anchor="end">Врач Офтальмолог</text><rect x="230" y="96" width="594" height="13" rx="3"/><text x="830" y="109">5185</text>
+<text x="220" y="127" text-anchor="end">Электрокардиография</text><rect x="230" y="114" width="553" height="13" rx="3"/><text x="789" y="127">4826</text>
+<text x="220" y="145" text-anchor="end">Врач Психиатр-Нарколог</text><rect x="230" y="132" width="473" height="13" rx="3"/><text x="709" y="145">4127</text>
+<text x="220" y="163" text-anchor="end">Врач Хирург</text><rect x="230" y="150" width="447" height="13" rx="3"/><text x="683" y="163">3903</text>
+<text x="220" y="181" text-anchor="end">Аудиометрия</text><rect x="230" y="168" width="369" height="13" rx="3"/><text x="605" y="181">3221</text>
+<text x="220" y="199" text-anchor="end">Рентген</text><rect x="230" y="186" width="320" height="13" rx="3"/><text x="556" y="199">2795</text>
+<text x="220" y="217" text-anchor="end">Врач Стоматолог</text><rect x="230" y="204" width="318" height="13" rx="3"/><text x="554" y="217">2780</text>
+<text x="220" y="235" text-anchor="end">Спирометрия</text><rect x="230" y="222" width="315" height="13" rx="3"/><text x="551" y="235">2754</text>
+<text x="220" y="253" text-anchor="end">Врач Дерматовенеролог</text><rect x="230" y="240" width="304" height="13" rx="3"/><text x="540" y="253">2653</text>
+<text x="220" y="271" text-anchor="end">Врач Акушер-гинеколог</text><rect x="230" y="258" width="158" height="13" rx="3"/><text x="394" y="271">1384</text>
+<text x="220" y="289" text-anchor="end">УЗИ ОБП</text><rect x="230" y="276" width="155" height="13" rx="3"/><text x="391" y="289">1357</text>
+<text x="220" y="307" text-anchor="end">УЗИ ОМТ</text><rect x="230" y="294" width="123" height="13" rx="3"/><text x="359" y="307">1078</text>
+<text x="220" y="325" text-anchor="end">Электроэнцефалограмма</text><rect x="230" y="312" width="25" height="13" rx="3"/><text x="261" y="325">215</text>
+<text x="220" y="343" text-anchor="end">УЗИ доп. исследования</text><rect x="230" y="330" width="2" height="13" rx="3"/><text x="238" y="343">4</text>
+<text x="220" y="361" text-anchor="end">Выполнение процедуры</text><rect x="230" y="348" width="2" height="13" rx="3"/><text x="238" y="361">2</text>
+<text x="220" y="379" text-anchor="end">УЗИ Вен</text><rect x="230" y="366" width="2" height="13" rx="3"/><text x="238" y="379">1</text></svg>
+      <svg viewBox="0 0 900 444" role="img" aria-label="Топ МКБ во вложенных заключениях"><style>svg{font-family:Arial,sans-serif} text{font-size:12px;fill:#1f2937} rect{fill:#2563eb}</style><text x="12" y="24" style="font-size:18px;font-weight:700">Топ МКБ во вложенных заключениях</text><text x="220" y="55" text-anchor="end">Z00.0</text><rect x="230" y="42" width="646" height="13" rx="3"/><text x="882" y="55">25047</text>
+<text x="220" y="73" text-anchor="end">J34.2</text><rect x="230" y="60" width="37" height="13" rx="3"/><text x="273" y="73">1449</text>
+<text x="220" y="91" text-anchor="end">H52.1</text><rect x="230" y="78" width="35" height="13" rx="3"/><text x="271" y="91">1371</text>
+<text x="220" y="109" text-anchor="end">M42.1</text><rect x="230" y="96" width="21" height="13" rx="3"/><text x="257" y="109">807</text>
+<text x="220" y="127" text-anchor="end">Z01.2</text><rect x="230" y="114" width="21" height="13" rx="3"/><text x="257" y="127">798</text>
+<text x="220" y="145" text-anchor="end">K02.9</text><rect x="230" y="132" width="13" height="13" rx="3"/><text x="249" y="145">521</text>
+<text x="220" y="163" text-anchor="end">I10</text><rect x="230" y="150" width="13" height="13" rx="3"/><text x="249" y="163">514</text>
+<text x="220" y="181" text-anchor="end">H52.4</text><rect x="230" y="168" width="12" height="13" rx="3"/><text x="248" y="181">470</text>
+<text x="220" y="199" text-anchor="end">K02.1</text><rect x="230" y="186" width="12" height="13" rx="3"/><text x="248" y="199">464</text>
+<text x="220" y="217" text-anchor="end">H52.2</text><rect x="230" y="204" width="10" height="13" rx="3"/><text x="246" y="217">385</text>
+<text x="220" y="235" text-anchor="end">I11.9</text><rect x="230" y="222" width="9" height="13" rx="3"/><text x="245" y="235">365</text>
+<text x="220" y="253" text-anchor="end">H52.0</text><rect x="230" y="240" width="9" height="13" rx="3"/><text x="245" y="253">358</text>
+<text x="220" y="271" text-anchor="end">Z00.8</text><rect x="230" y="258" width="8" height="13" rx="3"/><text x="244" y="271">299</text>
+<text x="220" y="289" text-anchor="end">E66</text><rect x="230" y="276" width="7" height="13" rx="3"/><text x="243" y="289">276</text>
+<text x="220" y="307" text-anchor="end">H90.3</text><rect x="230" y="294" width="6" height="13" rx="3"/><text x="242" y="307">233</text>
+<text x="220" y="325" text-anchor="end">Z72</text><rect x="230" y="312" width="6" height="13" rx="3"/><text x="242" y="325">232</text>
+<text x="220" y="343" text-anchor="end">Z00</text><rect x="230" y="330" width="5" height="13" rx="3"/><text x="241" y="343">185</text>
+<text x="220" y="361" text-anchor="end">D25</text><rect x="230" y="348" width="5" height="13" rx="3"/><text x="241" y="361">183</text>
+<text x="220" y="379" text-anchor="end">I83.9</text><rect x="230" y="366" width="4" height="13" rx="3"/><text x="240" y="379">137</text>
+<text x="220" y="397" text-anchor="end">N86</text><rect x="230" y="384" width="3" height="13" rx="3"/><text x="239" y="397">114</text></svg>
+      
+      <h3>Колонки: пропуски, уникальность, длины</h3>
+      <table><thead><tr><th>Колонка</th><th>Пропусков</th><th>%</th><th>Уникальных</th><th>Средняя длина</th><th>Макс. длина</th></tr></thead><tbody><tr><td>exam_row_id</td><td>0</td><td>0%</td><td>6215</td><td>10</td><td>10</td></tr><tr><td>patient_id</td><td>0</td><td>0%</td><td>5907</td><td>6.3</td><td>8</td></tr><tr><td>consultation_date</td><td>0</td><td>0%</td><td>6213</td><td>23</td><td>23</td></tr><tr><td>assigned_harmful_factors</td><td>0</td><td>0%</td><td>1044</td><td>22.8</td><td>1017</td></tr><tr><td>specialist_conclusions</td><td>0</td><td>0%</td><td>5965</td><td>1937.8</td><td>4264</td></tr></tbody></table>
+    </section>
+</body>
+</html>

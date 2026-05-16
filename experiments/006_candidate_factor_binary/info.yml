@@ -1,0 +1,17 @@
+status: done
+hypothesis: 'Точная постановка задачи: каждый assigned factor классифицируется отдельно;
+  output всегда subset assigned factors.'
+local_validation:
+  autonomous_score_alpha_0_5: 0.44209
+  objective: 0.461979
+  candidate_auc_note: not computed
+  any_f1: 0.392558
+  jaccard: 0.491621
+  positive_rate_pred: 0.098405
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\006_candidate_factor_binary\submission.csv
+  validation_predictions: experiments/006_candidate_factor_binary/validation_predictions.csv
+  metrics: experiments/006_candidate_factor_binary/metrics.json
+  validation_candidates: experiments/006_candidate_factor_binary/validation_candidates.csv

@@ -1,0 +1,49 @@
+experiments:
+  - id: "001_baseline_tfidf_logreg"
+    local_autonomous_score_alpha_0_5: 0.417749
+    public: 0.41902
+    private: 0.41650
+    test_positive_rate: 0.0848
+    note: "Best leaderboard so far. Treat as anchor."
+  - id: "002_autonomous_tuned"
+    local_autonomous_score_alpha_0_5: 0.483131
+    public: null
+    private: null
+    test_positive_rate: 0.2861
+    note: "Too aggressive; likely over-optimized local score."
+  - id: "003_retrieval_positive_cases"
+    local_autonomous_score_alpha_0_5: 0.427239
+    public: null
+    private: null
+    test_positive_rate: 0.8999
+    note: "High Jaccard but unusably many positive rows."
+  - id: "004_hybrid_grouped_ranker"
+    local_autonomous_score_alpha_0_5: 0.492897
+    public: 0.41262
+    private: 0.38392
+    test_positive_rate: 0.1883
+    note: "Local score was misleading; positive rate still too high."
+  - id: "005_conservative_tfidf"
+    local_autonomous_score_alpha_0_5: 0.473581
+    public: null
+    private: null
+    test_positive_rate: 0.0998
+    note: "Exp001-style conservative word+char TF-IDF; current submission candidate."
+  - id: "006_candidate_factor_binary"
+    local_autonomous_score_alpha_0_5: 0.44209
+    public: null
+    private: null
+    test_positive_rate: 0.1007
+    note: "Correct candidate-level task formulation: for each assigned factor predict contraindicated/not."
+  - id: "007_candidate_evidence"
+    local_autonomous_score_alpha_0_5: 0.17781
+    public: null
+    private: null
+    test_positive_rate: 0.0854
+    note: "Same-factor retrieval evidence failed; too sparse and hurts recall."
+  - id: "008_candidate_factor_thresholds"
+    local_autonomous_score_alpha_0_5: 0.47647
+    public: null
+    private: null
+    test_positive_rate: 0.1113
+    note: "Candidate-level model with per-factor thresholds; current submission candidate."

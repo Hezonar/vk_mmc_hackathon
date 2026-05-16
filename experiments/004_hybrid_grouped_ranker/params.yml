@@ -1,0 +1,47 @@
+name: 004_hybrid_grouped_ranker
+description: "Group split + binary logreg + hybrid factor ranker: model proba, retrieval votes, factor prior."
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+  group_column: patient_id
+metric:
+  alpha_grid: [0.3, 0.5, 0.7]
+  report_alpha: 0.5
+features:
+  repeat_assigned: 3
+  include_month: true
+vectorizer:
+  min_df: 2
+  max_df: 0.97
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 160000
+any_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+factor_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+retrieval:
+  top_k: 40
+  same_factor_bonus: 1.0
+prediction:
+  any_threshold_grid: [0.35, 0.8, 0.05]
+  factor_threshold_grid: [0.35, 0.85, 0.05]
+  max_factors_grid: [1, 2, 3]
+  weight_combinations:
+    - [1.0, 0.0, 0.0]
+    - [0.8, 0.15, 0.05]
+    - [0.7, 0.25, 0.05]
+    - [0.65, 0.25, 0.1]
+    - [0.55, 0.35, 0.1]
+  fallback_top_factor_grid: [true, false]
+  positive_rate_soft_max: 0.18
+  positive_rate_penalty: 0.35

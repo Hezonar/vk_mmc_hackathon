@@ -1,0 +1,28 @@
+{
+  "experiment": "005_conservative_tfidf",
+  "rows_train_total": 24861,
+  "rows_train_fit": 17402,
+  "rows_validation": 7459,
+  "rows_test": 6215,
+  "target_positive_rate_total": 0.045775,
+  "best_objective": 0.498044,
+  "best_params": {
+    "any_threshold": 0.525,
+    "factor_threshold": 0.575,
+    "max_factors": 2,
+    "fallback_top_factor": true
+  },
+  "best_metrics": {
+    "autonomous_score": 0.473581,
+    "alpha": 0.5,
+    "any_precision": 0.312224,
+    "any_recall": 0.621701,
+    "any_f1": 0.415686,
+    "factor_jaccard_on_true_positive_rows": 0.531476,
+    "positive_rate_true": 0.045717,
+    "positive_rate_pred": 0.091031
+  },
+  "grid_combinations_tried": 3174,
+  "submission_positive_rows": 620,
+  "submission_positive_rate": 0.099759
+}

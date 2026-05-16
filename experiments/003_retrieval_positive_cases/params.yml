@@ -1,0 +1,27 @@
+name: 003_retrieval_positive_cases
+description: "Необычный pipeline: retrieval похожих позитивных осмотров + голосование факторов."
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+features:
+  repeat_assigned: 4
+  include_month: false
+vectorizer:
+  min_df: 2
+  max_df: 0.98
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 180000
+retrieval:
+  top_k_grid: [10, 20, 40]
+  any_threshold_grid: [0.04, 0.32, 0.04]
+  factor_threshold_grid: [0.02, 0.22, 0.04]
+  max_factors_grid: [1, 2, 3]
+  same_factor_bonus_grid: [1.0, 2.0]
+  prior_weight_grid: [0.0, 0.05]
+  min_shared_assigned_grid: [1]

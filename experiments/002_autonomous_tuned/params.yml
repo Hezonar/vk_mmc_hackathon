@@ -1,0 +1,35 @@
+name: 002_autonomous_tuned
+description: "TF-IDF + LogisticRegression, но пороги подбираются прямо по Autonomous Score."
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+features:
+  repeat_assigned: 3
+  include_month: true
+vectorizer:
+  min_df: 2
+  max_df: 0.97
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 160000
+any_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+factor_model:
+  max_iter: 1000
+  class_weight: balanced
+  solver: liblinear
+  random_state: 42
+prediction:
+  objective: autonomous_score
+  any_threshold_grid: [0.1, 0.9, 0.025]
+  factor_threshold_grid: [0.05, 0.9, 0.025]
+  max_factors_grid: [1, 2, 3, 5]
+  fallback_top_factor_grid: [true, false]

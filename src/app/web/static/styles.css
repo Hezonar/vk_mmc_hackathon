@@ -1,0 +1,617 @@
+:root {
+  color-scheme: light;
+  --ink: #0e2a47;
+  --muted: #5f7894;
+  --line: #b8d7ee;
+  --line-strong: #6aaed6;
+  --page: #eef8ff;
+  --surface: #ffffff;
+  --surface-blue: #f6fbff;
+  --primary: #0c78be;
+  --primary-dark: #075e9a;
+  --cyan: #5fc8ee;
+  --danger: #d84f5f;
+  --success: #1d9a71;
+  --warning: #d98b22;
+  --shadow: 0 18px 50px rgba(31, 111, 166, 0.14);
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background: var(--page);
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(228, 246, 255, 0.84)),
+    repeating-linear-gradient(0deg, rgba(12, 120, 190, 0.05) 0 1px, transparent 1px 36px),
+    repeating-linear-gradient(90deg, rgba(12, 120, 190, 0.04) 0 1px, transparent 1px 36px);
+}
+
+.shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 64px;
+}
+
+.app-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.main-title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.ai-chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--primary-dark);
+  padding: 10px 14px;
+  font-weight: 800;
+  box-shadow: 0 8px 24px rgba(31, 111, 166, 0.1);
+}
+
+.workspace-card,
+.patient-card,
+.exam-card,
+.empty-state,
+.demo-fold,
+.card,
+.errors {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.workspace-card {
+  padding: 22px;
+}
+
+.panel-title-row,
+.block-heading,
+.exam-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.panel-title,
+.block-heading h3,
+.patient-summary h2,
+.exam-card h2,
+.empty-state h2,
+.section-title,
+.errors-title {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.panel-title {
+  font-size: 22px;
+}
+
+.panel-caption,
+.patient-summary p,
+.empty-state p,
+.block-heading span,
+.small-muted,
+.details {
+  margin: 6px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.2fr) minmax(220px, 1fr) auto;
+  align-items: end;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 10px 12px;
+  font: inherit;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(95, 200, 238, 0.28);
+}
+
+input[type="file"] {
+  padding: 9px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn,
+.choose-link {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(12, 120, 190, 0.26);
+}
+
+.btn.primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn.secondary,
+.choose-link {
+  border-color: var(--line-strong);
+  background: #ffffff;
+  color: var(--primary-dark);
+}
+
+.patient-workspace {
+  margin-top: 22px;
+}
+
+.empty-state {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 32px;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.empty-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--surface-blue);
+  border: 1px solid var(--line);
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.patient-card {
+  padding: 24px;
+}
+
+.patient-card-muted {
+  min-height: 220px;
+}
+
+.patient-summary {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.patient-summary h2 {
+  font-size: 30px;
+}
+
+.patient-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 0;
+}
+
+.patient-meta div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-blue);
+}
+
+.patient-meta dt {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.patient-meta dd {
+  margin: 5px 0 0;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.exams-block {
+  margin-top: 20px;
+}
+
+.exams-table-wrap {
+  width: 100%;
+  margin-top: 14px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.exams-table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.exams-table th,
+.exams-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.exams-table th {
+  background: #e6f5ff;
+  color: var(--primary-dark);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.exams-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.status-pill,
+.mini-tag,
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 2px;
+  color: var(--primary-dark);
+  background: #e6f5ff;
+}
+
+.status-pill.risk,
+.status-pill.red,
+.badge-red {
+  color: #9f1239;
+  background: #ffe8ed;
+}
+
+.status-pill.ok,
+.status-pill.green,
+.badge-green {
+  color: #07634a;
+  background: #e5f8f0;
+}
+
+.status-pill.blue,
+.badge-blue {
+  color: #075e9a;
+  background: #dff4ff;
+}
+
+.status-pill.gray,
+.badge-gray {
+  color: #4b647b;
+  background: #edf4fa;
+}
+
+.muted-text {
+  color: var(--muted);
+}
+
+.exam-details-stack {
+  display: grid;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.exam-card {
+  padding: 24px;
+  scroll-margin-top: 20px;
+}
+
+.exam-card-red {
+  border-left: 8px solid var(--danger);
+}
+
+.exam-card-green {
+  border-left: 8px solid var(--success);
+}
+
+.exam-card-blue {
+  border-left: 8px solid var(--primary);
+}
+
+.exam-card-gray {
+  border-left: 8px solid #7c94aa;
+}
+
+.exam-card h2 {
+  font-size: 26px;
+}
+
+.exam-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.exam-fields > div,
+.conclusion-box {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-blue);
+  padding: 14px;
+}
+
+.field-label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.exam-fields p {
+  margin: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.visit-draft {
+  width: 100%;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  padding: 14px;
+  font: 14px/1.5 "Segoe UI", system-ui, sans-serif;
+  resize: vertical;
+}
+
+.signature-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.visit-details {
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.visit-details > summary {
+  cursor: pointer;
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
+.visit-list {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.visit-quote {
+  margin: 12px 0 0;
+  padding: 12px;
+  border-left: 4px solid var(--line-strong);
+  background: #ffffff;
+  line-height: 1.45;
+}
+
+.json-pre {
+  margin: 12px 0 0;
+  padding: 12px;
+  max-height: 280px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 12px;
+}
+
+.demo-fold {
+  margin-top: 22px;
+  padding: 14px 16px;
+  box-shadow: none;
+}
+
+.demo-fold > summary {
+  cursor: pointer;
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+
+.demo-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(160px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+  margin-top: 16px;
+}
+
+.out {
+  margin-top: 16px;
+}
+
+.card {
+  padding: 18px;
+}
+
+.section-title {
+  font-size: 20px;
+}
+
+.badges-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.details {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.errors {
+  padding: 20px;
+  border-left: 8px solid var(--danger);
+}
+
+.errors-list {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: #9f1239;
+}
+
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+form.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(12, 120, 190, 0.16);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .search-form,
+  .demo-form,
+  .exam-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .actions,
+  .btn.primary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 16px;
+  }
+
+  .app-header,
+  .panel-title-row,
+  .exam-card-header,
+  .signature-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workspace-card,
+  .patient-card,
+  .exam-card {
+    padding: 16px;
+  }
+
+  .patient-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .empty-state {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 22px;
+  }
+}

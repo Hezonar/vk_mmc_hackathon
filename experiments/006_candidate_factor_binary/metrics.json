@@ -1,0 +1,28 @@
+{
+  "experiment": "006_candidate_factor_binary",
+  "rows_train_total": 24861,
+  "rows_train_fit": 17402,
+  "rows_validation": 7459,
+  "rows_test": 6215,
+  "candidate_rows_train_fit": 77956,
+  "candidate_rows_validation": 33073,
+  "candidate_positive_rate_train_fit": 0.014418,
+  "target_positive_rate_total": 0.045775,
+  "best_objective": 0.461979,
+  "best_params": {
+    "factor_threshold": 0.53
+  },
+  "best_metrics": {
+    "autonomous_score": 0.44209,
+    "alpha": 0.5,
+    "any_precision": 0.287466,
+    "any_recall": 0.618768,
+    "any_f1": 0.392558,
+    "factor_jaccard_on_true_positive_rows": 0.491621,
+    "positive_rate_true": 0.045717,
+    "positive_rate_pred": 0.098405
+  },
+  "grid_combinations_tried": 56,
+  "submission_positive_rows": 626,
+  "submission_positive_rate": 0.100724
+}

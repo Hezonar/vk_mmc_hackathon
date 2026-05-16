@@ -1,0 +1,15 @@
+status: done
+hypothesis: Candidate-level model is right, but each assigned factor needs its own
+  threshold because factor base rates differ heavily.
+local_validation:
+  autonomous_score_alpha_0_5: 0.47647
+  objective: 0.496199
+  any_f1: 0.397906
+  jaccard: 0.555034
+  positive_rate_pred: 0.107923
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\008_candidate_factor_thresholds\submission.csv
+  validation_predictions: experiments/008_candidate_factor_thresholds/validation_predictions.csv
+  metrics: experiments/008_candidate_factor_thresholds/metrics.json

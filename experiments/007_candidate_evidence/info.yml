@@ -1,0 +1,16 @@
+status: done
+hypothesis: Candidate-level is right; add factor-specific historical evidence so the
+  classifier can distinguish dangerous assigned factors from harmless assigned factors.
+local_validation:
+  autonomous_score_alpha_0_5: 0.17781
+  objective: 0.18149
+  any_f1: 0.151515
+  jaccard: 0.204106
+  positive_rate_pred: 0.113554
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\007_candidate_evidence\submission.csv
+  validation_predictions: experiments/007_candidate_evidence/validation_predictions.csv
+  metrics: experiments/007_candidate_evidence/metrics.json
+  validation_candidates: experiments/007_candidate_evidence/validation_candidates.csv

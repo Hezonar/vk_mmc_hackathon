@@ -1,0 +1,15 @@
+status: done
+hypothesis: 'Усиливаем exp001, не ломая его профиль: conservative positive rate, больше
+  устойчивости через char n-grams.'
+local_validation:
+  autonomous_score_alpha_0_5: 0.473581
+  objective: 0.498044
+  any_f1: 0.415686
+  jaccard: 0.531476
+  positive_rate_pred: 0.091031
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\005_conservative_tfidf\submission.csv
+  validation_predictions: experiments/005_conservative_tfidf/validation_predictions.csv
+  metrics: experiments/005_conservative_tfidf/metrics.json

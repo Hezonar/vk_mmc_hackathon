@@ -1,0 +1,14 @@
+status: done
+hypothesis: Текущий baseline подбирал пороги по proxy-метрике. Прямой подбор по F1(any)+Jaccard
+  должен лучше совпасть с leaderboard.
+local_validation:
+  autonomous_score_alpha_0_5: 0.483131
+  any_f1: 0.2472
+  jaccard: 0.719062
+  positive_rate_pred: 0.277517
+  positive_rate_true: 0.045717
+leaderboard: {}
+outputs:
+  submission: experiments\002_autonomous_tuned\submission.csv
+  validation_predictions: experiments/002_autonomous_tuned/validation_predictions.csv
+  metrics: experiments/002_autonomous_tuned/metrics.json

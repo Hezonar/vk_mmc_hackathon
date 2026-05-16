@@ -1,0 +1,15 @@
+status: done
+hypothesis: Простой baseline без усложнений уже должен дать валидный submission и
+  устойчивую метрику.
+local_validation:
+  autonomous_score_alpha_0_5: 0.417749
+  any_f1: 0.393514
+  jaccard: 0.441984
+  positive_rate_pred: 0.078295
+  positive_rate_true: 0.045717
+leaderboard:
+  public: 0.41902
+  private: 0.4165
+outputs:
+  original_submission: reports/ml_baseline/submission_baseline.csv
+  copied_submission: submission.csv
