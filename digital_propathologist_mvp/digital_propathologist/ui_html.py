@@ -31,7 +31,7 @@ def _factor_label(status: str) -> str:
 
 def _card_label(status: str) -> str:
     return {
-        "normal": "норма",
+        "normal": "годен",
         "warning": "проверить",
         "risk": "влияет на фактор",
         "empty": "нет данных",
@@ -53,13 +53,25 @@ def _kind_icon(kind: str) -> str:
     return "•"
 
 
+def _is_general_exam_mkb(item: SpecialistConclusion) -> bool:
+    return (item.mkb_code or "").strip().upper() == "Z00.0"
+
+
+def _display_health_group(item: SpecialistConclusion) -> str:
+    if item.health_group:
+        return item.health_group
+    if _is_general_exam_mkb(item):
+        return "годен"
+    return "—"
+
+
 def _conclusion_card(idx: int, item: SpecialistConclusion, links: dict[str, list[int]], status: str) -> str:
     if not item.has_meaningful_result:
         status = "empty"
     linked = linked_factors_for_card(idx, links)
     linked_json = esc(json.dumps(linked, ensure_ascii=False))
     has_mkb = bool(item.mkb_code.strip())
-    text = item.conclusion.strip() or item.mkb_description.strip() or "Заключение не заполнено в CSV."
+    text = item.conclusion.strip() or item.mkb_description.strip() or ("Годен" if _is_general_exam_mkb(item) else "Заключение не заполнено в CSV.")
     specialist = item.specialist or "Специалист не указан"
     date = (item.consultation_date or "")[:10]
     mkb = f"{item.mkb_code} — {item.mkb_description}" if has_mkb and item.mkb_description else (item.mkb_code or "—")
@@ -76,7 +88,7 @@ def _conclusion_card(idx: int, item: SpecialistConclusion, links: dict[str, list
       <div class="card-meta"><b>МКБ-10:</b> {esc(mkb)}</div>
       <p class="card-text">{esc(text)}</p>
       <div class="card-footer">
-        <span>Группа здоровья: <b>{esc(item.health_group or "—")}</b></span>
+        <span>Группа здоровья: <b>{esc(_display_health_group(item))}</b></span>
         <span class="linked-factors">{factors_badge}</span>
       </div>
     </article>
@@ -387,7 +399,17 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
         </div>
         """
         for warn in warnings[:10]
-    ) or "<div class='empty-card'>Явные настораживающие признаки по эвристикам не найдены.</div>"
+    )
+    warning_section = (
+        f"""
+          <section class="section">
+            <h2>Настораживающие признаки</h2>
+            <div class="warnings-grid">{warning_cards}</div>
+          </section>
+        """
+        if warning_cards
+        else ""
+    )
 
     csv_line = f"{exam.exam_row_id},{prediction.factors_csv if prediction.done else '—'}"
     result_class = "result-risk" if prediction.status == "risk" else "result-ok" if prediction.status == "ok" else "result-empty"
@@ -431,9 +453,10 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
         --gray-soft: #f1f5f9;
       }}
       * {{ box-sizing: border-box; }}
+      html {{ scroll-behavior: smooth; }}
       body {{ margin: 0; background: transparent; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); }}
-      .exam-shell {{ height: 960px; overflow: hidden; padding: 4px 0 0; }}
-      .exam-grid {{ display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 16px; align-items: start; height: calc(100% - 108px); overflow: hidden; }}
+      .exam-shell {{ min-height: 100%; overflow: visible; padding: 4px 0 18px; }}
+      .exam-grid {{ display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 16px; align-items: start; overflow: visible; }}
       .top-grid {{ display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 16px; align-items: stretch; }}
       .section {{ background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 18px; box-shadow: 0 10px 24px rgba(15,23,42,.04); margin-bottom: 16px; }}
       .section-title {{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 12px; }}
@@ -480,10 +503,8 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
       .card-footer {{ display:flex; justify-content:space-between; gap:8px; margin-top:12px; color:var(--muted); font-size:12px; }}
       .linked-factors {{ display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }}
       .mini-factor {{ border-radius:999px; background:#e0f2fe; color:#075985; padding:2px 7px; font-weight:800; }}
-      .main-scroll {{ height: 100%; overflow-y: auto; padding-right: 6px; }}
-      .side-sticky {{ height: 100%; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; }}
-      .side-sticky::-webkit-scrollbar, .main-scroll::-webkit-scrollbar {{ width: 8px; }}
-      .side-sticky::-webkit-scrollbar-thumb, .main-scroll::-webkit-scrollbar-thumb {{ background: #cbd5e1; border-radius: 999px; }}
+      .main-scroll {{ min-width: 0; overflow: visible; }}
+      .side-sticky {{ min-width: 0; overflow: visible; }}
       .result-box {{ border-radius:24px; padding:16px; border:1px solid var(--line); }}
       .result-risk {{ background:var(--red-soft); border-color:#fecdd3; }}
       .result-ok {{ background:var(--green-soft); border-color:#bbf7d0; }}
@@ -521,7 +542,7 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
       .scenario-green {{ background:#ecfdf5; border-color:#bbf7d0; }}
       .scenario-red {{ background:#fff1f2; border-color:#fecdd3; }}
       .scenario-wait {{ background:#f8fafc; border-color:#e2e8f0; }}
-      .report-dock {{ position: sticky; bottom: 0; margin-top:12px; padding:10px; border:1px solid #bae6fd; background:rgba(240,249,255,.96); backdrop-filter: blur(8px); border-radius:18px; display:flex; flex-direction:column; gap:6px; align-items:stretch; box-shadow:0 -10px 28px rgba(15,23,42,.08); }}
+      .report-dock {{ margin-top:12px; padding:10px; border:1px solid #bae6fd; background:#f0f9ff; border-radius:18px; display:flex; flex-direction:column; gap:6px; align-items:stretch; box-shadow:none; }}
       .report-button {{ display:inline-flex; justify-content:center; align-items:center; min-height:34px; padding:7px 12px; border-radius:12px; background:#075985; color:white; text-decoration:none; font-weight:900; font-size:12px; }}
       .report-button:hover {{ background:#0c4a6e; }}
       .report-dock small {{ color:#475569; font-size:11.5px; line-height:1.3; text-align:center; }}
@@ -534,7 +555,7 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
       .order-card li {{ margin-bottom:5px; }}
       .order-title {{ font-weight:900; color:#0f172a; }}
       .muted-order {{ background:#f8fafc; color:#475569; }}
-      @media (max-width: 1100px) {{ .exam-shell {{ height:auto; overflow:visible; }} .exam-grid, .top-grid {{ grid-template-columns:1fr; height:auto; overflow:visible; }} .main-scroll, .side-sticky {{ height:auto; overflow:visible; padding-right:0; }} .cards-grid {{ grid-template-columns:1fr; }} .summary-strip {{ grid-template-columns:repeat(2,1fr); }} .order-grid {{ grid-template-columns:1fr; }} }}
+      @media (max-width: 1100px) {{ .exam-grid, .top-grid {{ grid-template-columns:1fr; }} .cards-grid {{ grid-template-columns:1fr; }} .summary-strip {{ grid-template-columns:repeat(2,1fr); }} .order-grid {{ grid-template-columns:1fr; }} }}
     </style>
 
     <div class="exam-shell">
@@ -616,10 +637,7 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
             <div class="recommendations-grid">{rec_cards}</div>
           </section>
 
-          <section class="section">
-            <h2>Настораживающие признаки</h2>
-            <div class="warnings-grid">{warning_cards}</div>
-          </section>
+          {warning_section}
 
           <section class="section">
             <h2>Отчет по форме 29н</h2>
@@ -651,6 +669,7 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
       function clearHighlights() {{
         factors.forEach(el => el.classList.remove('is-active'));
         cards.forEach(el => el.classList.remove('is-highlighted'));
+        renderEvidence([]);
       }}
 
       function parseEvidence(el) {{
@@ -668,16 +687,13 @@ def render_exam_details(exam: Exam, prediction: PredictionResult | None) -> str:
           clearHighlights();
           const factor = factorEl.getAttribute('data-factor');
           factorEl.classList.add('is-active');
-          let firstLinkedCard = null;
           cards.forEach(card => {{
             const linked = parseLinked(card);
             if (linked.includes(factor)) {{
               card.classList.add('is-highlighted');
-              if (!firstLinkedCard) firstLinkedCard = card;
             }}
           }});
           renderEvidence(parseEvidence(factorEl));
-          if (firstLinkedCard) firstLinkedCard.scrollIntoView({{block:'nearest', behavior:'smooth'}});
         }});
         factorEl.addEventListener('mouseleave', clearHighlights);
       }});

@@ -89,7 +89,16 @@ def is_research(item: SpecialistConclusion) -> bool:
 def detect_research_warnings(conclusions: list[SpecialistConclusion]) -> list[ResearchWarning]:
     warnings: list[ResearchWarning] = []
     for item in conclusions:
-        blob = item.text_blob
+        if not item.has_meaningful_result:
+            continue
+        blob = " ".join(
+            [
+                item.conclusion or "",
+                item.health_group or "",
+                item.mkb_code or "",
+                item.mkb_description or "",
+            ]
+        ).strip()
         if not blob:
             continue
         for kind, pattern in WARNING_PATTERNS:
