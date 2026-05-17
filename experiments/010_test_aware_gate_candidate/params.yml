@@ -1,0 +1,71 @@
+name: 010_test_aware_gate_candidate
+description: "Test-aware transductive TF-IDF + row gate + candidate-level factor model."
+source_experiments: ["005_conservative_tfidf", "006_candidate_factor_binary", "008_candidate_factor_thresholds"]
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+split:
+  train_size: 0.7
+  random_state: 42
+metric:
+  alpha: 0.5
+row_features:
+  repeat_assigned: 2
+  include_month: true
+candidate_features:
+  repeat_assigned: 1
+  include_month: true
+  candidate_repeats: 10
+  candidate_pair_repeats: 3
+row_word_vectorizer:
+  min_df: 2
+  max_df: 0.95
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 120000
+row_char_vectorizer:
+  analyzer: char_wb
+  min_df: 3
+  max_df: 0.98
+  ngram_range: [3, 5]
+  sublinear_tf: true
+  max_features: 60000
+candidate_word_vectorizer:
+  min_df: 2
+  max_df: 0.96
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 180000
+candidate_char_vectorizer:
+  analyzer: char_wb
+  min_df: 3
+  max_df: 0.98
+  ngram_range: [3, 5]
+  sublinear_tf: true
+  max_features: 90000
+row_model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight:
+    0: 1.0
+    1: 12.0
+candidate_model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight:
+    0: 1.0
+    1: 16.0
+prediction:
+  row_threshold_grid: [0.25, 0.85, 0.025]
+  factor_threshold_grid: [0.35, 0.9, 0.01]
+  max_factors_grid: [1, 2]
+  test_positive_rate_min: 0.075
+  test_positive_rate_max: 0.115
+  test_positive_rate_target: 0.095
+  test_positive_rate_penalty: 1.4
+  validation_positive_rate_soft_min: 0.055
+  validation_positive_rate_soft_max: 0.13
+  validation_positive_rate_penalty: 0.8
+  jaccard_weight_bonus: 0.05

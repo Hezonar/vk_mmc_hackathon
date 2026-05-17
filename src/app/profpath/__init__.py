@@ -8,6 +8,7 @@ from app.profpath.dataset import (
     sort_by_date,
 )
 from app.profpath.ml_stub import build_model_input, predict_row_stub, predict_with_ml_stub
+from app.profpath.ml_model import predict_with_candidate_model
 from app.profpath.parsing import (
     extract_problem_fragments,
     get_parsed_info,
@@ -33,6 +34,7 @@ __all__ = [
     "parse_bool",
     "parse_specialist_conclusions",
     "predict_row_stub",
+    "predict_with_candidate_model",
     "predict_with_ml_stub",
     "run_predictions_for_patient",
     "safe_str",

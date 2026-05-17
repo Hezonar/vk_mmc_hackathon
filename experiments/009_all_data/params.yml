@@ -1,0 +1,37 @@
+name: 009_all_data
+description: "Production artifact based on exp006 candidate-level model trained on all train data."
+source_experiment: "006_candidate_factor_binary"
+data:
+  train: data/train2.csv
+  test: data/test2.csv
+artifact:
+  model_path: src/app/profpath/model_artifacts/exp009_all_data.joblib
+metric_reference:
+  exp006_public: 0.44593
+features:
+  repeat_assigned: 1
+  include_month: true
+  candidate_repeats: 10
+  candidate_pair_repeats: 3
+word_vectorizer:
+  min_df: 2
+  max_df: 0.96
+  ngram_range: [1, 2]
+  sublinear_tf: true
+  max_features: 180000
+char_vectorizer:
+  analyzer: char_wb
+  min_df: 3
+  max_df: 0.98
+  ngram_range: [3, 5]
+  sublinear_tf: true
+  max_features: 90000
+model:
+  max_iter: 1000
+  solver: liblinear
+  random_state: 42
+  class_weight:
+    0: 1.0
+    1: 16.0
+prediction:
+  factor_threshold: 0.53
