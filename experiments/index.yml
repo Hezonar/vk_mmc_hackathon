@@ -47,3 +47,9 @@ experiments:
     private: null
     test_positive_rate: 0.1113
     note: "Candidate-level model with per-factor thresholds; current submission candidate."
+  - id: "009_all_data"
+    local_autonomous_score_alpha_0_5: null
+    public: null
+    private: null
+    test_positive_rate: 0.1007
+    note: "Production artifact: exp006 candidate-level model trained on all train rows and wired into the app."

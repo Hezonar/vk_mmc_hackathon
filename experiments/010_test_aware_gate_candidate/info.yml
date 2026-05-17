@@ -1,0 +1,5 @@
+status: pending
+hypothesis: "Use test legally: transductive TF-IDF vocabulary and threshold constraints, while labels come only from train."
+local_validation: {}
+leaderboard: {}
+outputs: {}

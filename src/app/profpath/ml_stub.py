@@ -99,6 +99,13 @@ def predict_with_ml_stub(row: pd.Series, parsed_info: dict[str, Any]) -> dict[st
 def predict_row_stub(row: pd.Series, *, use_ml_stub: bool = True) -> dict[str, Any]:
     parsed_info = get_parsed_info(row)
     if use_ml_stub:
+        try:
+            from app.profpath.ml_model import predict_with_candidate_model
+
+            return predict_with_candidate_model(row)
+        except Exception:
+            # Keep the demo/API usable when the trained artifact is not present.
+            pass
         return predict_with_ml_stub(row, parsed_info)
     return {
         "risk_score": 0.0,
