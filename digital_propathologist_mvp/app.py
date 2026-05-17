@@ -1,24 +1,20 @@
 from __future__ import annotations
 
-import time
-from pathlib import Path
+import hashlib
 
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
 from digital_propathologist.exports import selected_exam_csv
+from digital_propathologist.ml_model import candidate_model_available, model_metadata, predict_exam_with_candidate_model
 from digital_propathologist.parsing import EXAM_ID_COLUMN, exam_from_row, normalize_dataframe, patient_exam_summary, read_csv_bytes
+from digital_propathologist.ui_html import render_exam_details
 
 try:
     from streamlit_searchbox import st_searchbox
-except Exception:  # pragma: no cover - fallback for older environments
+except Exception:  # pragma: no cover - optional UI dependency
     st_searchbox = None
-from digital_propathologist.prediction_stub import predict_exam
-from digital_propathologist.ui_html import render_exam_details
-
-BASE_DIR = Path(__file__).parent
-DEMO_CSV = BASE_DIR / "data" / "demo_sample.csv"
 
 st.set_page_config(
     page_title="Цифровой профпатолог — MVP",
@@ -74,12 +70,29 @@ st.markdown(
     }
     .compact-panel { min-height: 238px; }
     .patient-panel {
-        padding: 12px 14px;
+        padding: 18px;
         margin-bottom: 10px;
+        min-height: 238px;
     }
     .patient-panel h3 {
-        font-size: 16px;
-        margin-bottom: 6px;
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+    .patient-panel-note {
+        color: #475569;
+        font-size: 13px;
+        line-height: 1.45;
+        margin: -2px 0 12px;
+    }
+    .patient-hint {
+        border: 1px dashed #cbd5e1;
+        border-radius: 16px;
+        background: #f8fafc;
+        color: #475569;
+        font-size: 13px;
+        line-height: 1.45;
+        padding: 11px 12px;
+        margin-top: 8px;
     }
     .patient-panel .patient-found {
         display: inline-flex;
@@ -91,6 +104,7 @@ st.markdown(
         color: #166534;
         font-size: 12px;
         font-weight: 800;
+        margin-top: 8px;
     }
     .exam-table-wrap {
         overflow-x: auto;
@@ -143,11 +157,6 @@ st.markdown(
 
 
 @st.cache_data(show_spinner=False)
-def load_demo_csv() -> pd.DataFrame:
-    return normalize_dataframe(read_csv_bytes(DEMO_CSV.read_bytes()))
-
-
-@st.cache_data(show_spinner=False)
 def load_uploaded_csv(data: bytes) -> pd.DataFrame:
     return normalize_dataframe(read_csv_bytes(data))
 
@@ -155,7 +164,9 @@ def load_uploaded_csv(data: bytes) -> pd.DataFrame:
 def set_dataframe(df: pd.DataFrame, source_name: str) -> None:
     st.session_state["df"] = df
     st.session_state["source_name"] = source_name
-    st.session_state.setdefault("predictions", {})
+    st.session_state["predictions"] = {}
+    st.session_state.pop("patient_query", None)
+    st.session_state.pop("patient_combo_search", None)
 
 
 def get_df() -> pd.DataFrame | None:
@@ -200,24 +211,26 @@ def render_metrics(df: pd.DataFrame | None) -> None:
 
 
 def render_upload_panel() -> None:
-    st.markdown("<div class='panel compact-panel'><h3>1. Загрузка данных</h3>", unsafe_allow_html=True)
-    uploaded = st.file_uploader("Загрузите CSV с осмотрами", type=["csv"], label_visibility="collapsed")
-    btn_col, note_col = st.columns([0.72, 1.28])
-    with btn_col:
-        if st.button("Открыть демо", help="Быстро проверить интерфейс без загрузки файла"):
-            df = load_demo_csv()
-            set_dataframe(df, "demo_sample.csv")
-            st.rerun()
-    with note_col:
-        st.caption("Обработка локально. ML-заглушка: prediction_stub.py")
-    if uploaded is not None:
-        try:
-            df = load_uploaded_csv(uploaded.getvalue())
-            set_dataframe(df, uploaded.name)
-            st.success(f"Файл загружен: {uploaded.name}")
-        except Exception as exc:
-            st.error(f"Ошибка чтения CSV: {exc}")
-    st.markdown("</div>", unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("### 1. Загрузка данных")
+        uploaded = st.file_uploader("Загрузите CSV с осмотрами", type=["csv"])
+        st.caption(f"Обработка локально. {model_metadata()}")
+        if uploaded is not None:
+            uploaded_bytes = uploaded.getvalue()
+            uploaded_signature = hashlib.sha256(uploaded_bytes).hexdigest()
+            uploaded_id = f"{uploaded.name}:{uploaded_signature}"
+            already_loaded = st.session_state.get("uploaded_id") == uploaded_id
+            try:
+                if not already_loaded:
+                    df = load_uploaded_csv(uploaded_bytes)
+                    set_dataframe(df, uploaded.name)
+                    st.session_state["uploaded_id"] = uploaded_id
+                    st.success(f"Файл загружен: {uploaded.name}")
+                    st.rerun()
+                else:
+                    st.success(f"Файл загружен: {uploaded.name}")
+            except Exception as exc:
+                st.error(f"Ошибка чтения CSV: {exc}")
 
 
 def exact_or_suggested_patient(df: pd.DataFrame, query: str) -> tuple[str | None, pd.DataFrame]:
@@ -232,70 +245,87 @@ def exact_or_suggested_patient(df: pd.DataFrame, query: str) -> tuple[str | None
 
 
 def render_patient_panel(df: pd.DataFrame) -> str | None:
-    st.markdown("<div class='panel patient-panel'><h3>2. Поиск пациента</h3>", unsafe_allow_html=True)
-    patient_ids = sorted(df["patient_id"].astype(str).dropna().unique().tolist())
+    with st.container(border=True):
+        st.markdown("### 2. Выбор пациента")
+        st.caption("Введите ID полностью или несколько цифр. Подсказки появляются ниже, без автоподстановки первого пациента.")
+        patient_ids = sorted(df["patient_id"].astype(str).dropna().unique().tolist())
 
-    def search_patient_ids(search_term: str) -> list[str]:
-        term = (search_term or "").strip()
-        if not term:
-            return patient_ids[:10]
-        starts = [pid for pid in patient_ids if pid.startswith(term)]
-        contains = [pid for pid in patient_ids if term in pid and pid not in starts]
-        return (starts + contains)[:10]
+        patient_id = None
+        if st_searchbox is not None:
+            def search_patient_ids(search_term: str) -> list[str]:
+                term = (search_term or "").strip()
+                if not term:
+                    return []
+                starts = [pid for pid in patient_ids if pid.startswith(term)]
+                contains = [pid for pid in patient_ids if term in pid and pid not in starts]
+                return (starts + contains)[:12]
 
-    patient_id = None
-    if st_searchbox is not None:
-        patient_id = st_searchbox(
-            search_patient_ids,
-            placeholder="Начните вводить ID пациента — появятся подсказки",
-            label="ID пациента",
-            key="patient_combo_search",
-        )
-    else:
-        query = st.text_input(
-            "ID пациента",
-            placeholder="Например: 190402",
-            help="Один пациент может иметь несколько профосмотров.",
-        )
-        exact, suggestions = exact_or_suggested_patient(df, query)
-        if exact is not None:
-            patient_id = exact
-        elif query and not suggestions.empty:
-            patient_id = st.selectbox("Подсказки по введенным цифрам", sorted(suggestions["patient_id"].astype(str).unique().tolist()))
-        elif query:
-            st.warning("Пациент не найден. Проверьте ID или загрузите другой CSV.")
+            patient_id = st_searchbox(
+                search_patient_ids,
+                placeholder="Начните вводить ID пациента",
+                label="ID пациента",
+                key="patient_combo_search",
+            )
         else:
-            patient_id = st.selectbox("Быстрый выбор patient_id", patient_ids[:30], index=0 if patient_ids else None)
+            query = st.text_input(
+                "ID пациента",
+                key="patient_query",
+                placeholder="Например: 310942",
+                help="Можно ввести часть ID и выбрать найденную подсказку.",
+            ).strip()
+            exact, suggestions = exact_or_suggested_patient(df, query)
+            if exact is not None:
+                patient_id = exact
+            elif query and not suggestions.empty:
+                options = sorted(suggestions["patient_id"].astype(str).unique().tolist())
+                patient_id = st.selectbox(
+                    "Найденные совпадения",
+                    options,
+                    index=None,
+                    placeholder="Выберите patient_id",
+                )
+            elif query:
+                st.warning("Пациент не найден. Проверьте ID или загрузите другой CSV.")
 
-    if patient_id:
-        count = int((df["patient_id"].astype(str) == str(patient_id)).sum())
-        st.markdown(f"<span class='patient-found'>Пациент найден · профосмотров: {count}</span>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+        if not patient_id:
+            sample_ids = ", ".join(patient_ids[:5])
+            patient_count = f"{len(patient_ids):,}".replace(",", " ")
+            st.markdown(
+                f"<div class='patient-hint'>В датасете {patient_count} пациентов. Примеры: {sample_ids}</div>",
+                unsafe_allow_html=True,
+            )
+
+        if patient_id:
+            count = int((df["patient_id"].astype(str) == str(patient_id)).sum())
+            st.markdown(f"<span class='patient-found'>Пациент найден · профосмотров: {count}</span>", unsafe_allow_html=True)
     return str(patient_id) if patient_id else None
 
 
-def render_exam_table(df: pd.DataFrame, patient_id: str) -> str | None:
+def render_exam_selector(df: pd.DataFrame, patient_id: str) -> tuple[str | None, pd.DataFrame]:
     summary = patient_exam_summary(df, patient_id)
     if summary.empty:
         st.warning("У пациента нет профосмотров в загруженном CSV.")
-        return None
+        return None, summary
 
+    with st.container(border=True):
+        st.markdown("### 3. Актуальное исследование")
+        st.caption("Выберите уникальный идентификатор строки заключения, который нужно разобрать сейчас.")
+        options = summary[EXAM_ID_COLUMN].astype(str).tolist()
+        selected_exam_id = st.selectbox(
+            "Уникальный идентификатор строки заключения",
+            options,
+            format_func=lambda value: f"{value} · {summary.loc[summary[EXAM_ID_COLUMN].astype(str) == str(value), 'Дата заключения профпатолога'].iloc[0]}",
+        )
+    return (str(selected_exam_id) if selected_exam_id else None), summary
+
+
+def render_exam_table(summary: pd.DataFrame, patient_id: str) -> None:
     st.markdown(
-        f"<div class='panel'><h3>3. Профосмотры пациента {patient_id}</h3><div class='soft-note'>Все ячейки выровнены по центру. Выберите нужный уникальный идентификатор строки заключения — ниже откроется витрина профосмотра.</div>",
+        f"<div class='panel'><h3>5. Профосмотры пациента {patient_id}</h3><div class='soft-note'>Справочный список всех профосмотров пациента. Актуальное исследование выбрано выше.</div>",
         unsafe_allow_html=True,
     )
-
-    options = summary[EXAM_ID_COLUMN].astype(str).tolist()
-    selected_exam_id = st.selectbox(
-        "Выберите уникальный идентификатор строки заключения",
-        options,
-        format_func=lambda value: f"{value} · {summary.loc[summary[EXAM_ID_COLUMN].astype(str) == str(value), 'Дата заключения профпатолога'].iloc[0]}",
-        label_visibility="collapsed",
-    )
-
     html_table = summary.to_html(index=False, classes="exam-table", escape=True)
     st.markdown(f"<div class='exam-table-wrap'>{html_table}</div></div>", unsafe_allow_html=True)
-    return str(selected_exam_id) if selected_exam_id else None
 
 
 def render_prediction_controls(exam_id: str, exam) -> None:
@@ -306,9 +336,11 @@ def render_prediction_controls(exam_id: str, exam) -> None:
     col1, col2, col3 = st.columns([0.9, 0.9, 2.4])
     with col1:
         if st.button("Предсказать", type="primary"):
+            if not candidate_model_available():
+                st.error("Артефакт модели 006 не найден. Запустите experiments/006_candidate_factor_binary/train.py.")
+                return
             with st.spinner("Модель анализирует заключения, факторы и исследования..."):
-                time.sleep(1.2)
-                predictions[exam_id] = predict_exam(exam)
+                predictions[exam_id] = predict_exam_with_candidate_model(exam)
             st.rerun()
     with col2:
         csv_data = selected_exam_csv(exam_id, current)
@@ -326,7 +358,7 @@ def render_prediction_controls(exam_id: str, exam) -> None:
             )
         else:
             st.markdown(
-                "<div class='danger-note'>Предсказание еще не выполнено. ML-вывод не появляется автоматически до действия врача.</div>",
+                "<div class='danger-note'>Предсказание еще не выполнено. ML-модель 006 запускается только по действию врача.</div>",
                 unsafe_allow_html=True,
             )
     st.markdown("</div>", unsafe_allow_html=True)
@@ -339,7 +371,7 @@ def main() -> None:
     if df is None:
         render_upload_panel()
         st.markdown(
-            "<div class='panel'><h3>Сценарий MVP</h3><div class='soft-note'>Загрузите CSV или откройте демо-данные. После этого появится поиск пациента, таблица профосмотров и раскрываемая витрина выбранного уникального ID строки заключения.</div></div>",
+            "<div class='panel'><h3>Сценарий MVP</h3><div class='soft-note'>Загрузите CSV. После этого появится поиск пациента, выбор актуального исследования и витрина выбранного уникального ID строки заключения.</div></div>",
             unsafe_allow_html=True,
         )
         return
@@ -352,7 +384,7 @@ def main() -> None:
     if not patient_id:
         return
 
-    selected_exam_id = render_exam_table(df, patient_id)
+    selected_exam_id, exam_summary = render_exam_selector(df, patient_id)
     if not selected_exam_id:
         return
 
@@ -366,7 +398,9 @@ def main() -> None:
 
     prediction = st.session_state.setdefault("predictions", {}).get(exam.exam_row_id)
     html = render_exam_details(exam, prediction)
-    components.html(html, height=1020, scrolling=False)
+    details_height = 1180 + 130 * len(exam.specialist_conclusions) + 80 * len(exam.assigned_harmful_factors)
+    components.html(html, height=min(details_height, 2600), scrolling=True)
+    render_exam_table(exam_summary, patient_id)
 
 
 if __name__ == "__main__":

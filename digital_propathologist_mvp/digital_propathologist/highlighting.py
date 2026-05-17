@@ -42,12 +42,15 @@ def text_blob(item: SpecialistConclusion) -> str:
 def card_has_warning(item: SpecialistConclusion) -> bool:
     if not item.has_meaningful_result:
         return False
+    mkb_code = (item.mkb_code or "").strip().upper()
+    if not mkb_code:
+        return True
     blob = text_blob(item).lower()
     if not blob.strip():
         return False
     if re.search(WARNING_TEXT_RULE, blob, flags=re.IGNORECASE):
         return True
-    if item.mkb_code and item.mkb_code.strip() and item.mkb_code.strip().upper() != "Z00.0":
+    if mkb_code != "Z00.0":
         return True
     return False
 

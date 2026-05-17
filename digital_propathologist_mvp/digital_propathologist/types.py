@@ -39,7 +39,7 @@ class SpecialistConclusion:
 
         mkb_code = (self.mkb_code or "").strip().upper()
         mkb_description = (self.mkb_description or "").strip().lower()
-        if mkb_code and mkb_code not in {"Z00.0"}:
+        if mkb_code:
             return True
         return bool(mkb_description and mkb_description != "общий медицинский осмотр")
 
