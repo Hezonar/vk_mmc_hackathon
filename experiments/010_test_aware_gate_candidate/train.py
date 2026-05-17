@@ -109,17 +109,22 @@ def objective(metrics: dict, test_positive_rate: float, params: dict) -> float:
 def train_models(exp006, train_part: pd.DataFrame, test_df: pd.DataFrame, params: dict):
     row_vec = DualVectorizer(params, "row_word_vectorizer", "row_char_vectorizer")
     row_vec.fit(row_texts(pd.concat([train_part, test_df], axis=0, ignore_index=True), params))
+    print("fitted row vectorizer", flush=True)
     x_row_train = row_vec.transform(row_texts(train_part, params))
     row_model = LogisticRegression(**params["row_model"])
     row_model.fit(x_row_train, train_part["target_any"].astype(int))
+    print("fitted row model", flush=True)
 
     candidate_train = exp006.make_candidate_frame(train_part, candidate_params(params), has_target=True)
     candidate_test = exp006.make_candidate_frame(test_df, candidate_params(params), has_target=False)
+    print(f"built candidate frames train={len(candidate_train)} test={len(candidate_test)}", flush=True)
     cand_vec = DualVectorizer(params, "candidate_word_vectorizer", "candidate_char_vectorizer")
     cand_vec.fit(candidate_train["text"].tolist() + candidate_test["text"].tolist())
+    print("fitted candidate vectorizer", flush=True)
     x_cand_train = cand_vec.transform(candidate_train["text"].tolist())
     cand_model = LogisticRegression(**params["candidate_model"])
     cand_model.fit(x_cand_train, candidate_train["target"].astype(int))
+    print("fitted candidate model", flush=True)
     return row_vec, row_model, cand_vec, cand_model
 
 
@@ -208,8 +213,11 @@ def main() -> None:
                     max_factors=int(max_factors),
                     row_order=test_df,
                 )
-                metrics = autonomous_score(true_labels, val_pred, alpha=float(params["metric"]["alpha"]))
                 test_positive_rate = float(np.mean([bool(x) for x in test_pred]))
+                if test_positive_rate < 0.04 or test_positive_rate > 0.16:
+                    tried += 1
+                    continue
+                metrics = autonomous_score(true_labels, val_pred, alpha=float(params["metric"]["alpha"]))
                 obj = objective(metrics, test_positive_rate, params)
                 tried += 1
                 if best is None or obj > best["objective"]:

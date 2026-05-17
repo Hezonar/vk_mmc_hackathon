@@ -1,5 +1,15 @@
-status: pending
-hypothesis: "Use test legally: transductive TF-IDF vocabulary and threshold constraints, while labels come only from train."
-local_validation: {}
+status: done
+hypothesis: 'Use test legally: transductive TF-IDF vocabulary and threshold constraints,
+  while labels come only from train.'
+local_validation:
+  autonomous_score_alpha_0_5: 0.447759
+  objective: 0.470713
+  any_f1: 0.398157
+  jaccard: 0.497361
+  positive_rate_pred: 0.099745
+  positive_rate_true: 0.045717
 leaderboard: {}
-outputs: {}
+outputs:
+  submission: experiments\010_test_aware_gate_candidate\submission.csv
+  validation_predictions: experiments/010_test_aware_gate_candidate/validation_predictions.csv
+  metrics: experiments/010_test_aware_gate_candidate/metrics.json
