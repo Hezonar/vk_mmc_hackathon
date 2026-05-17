@@ -4,24 +4,24 @@
   "rows_train_fit": 17402,
   "rows_validation": 7459,
   "rows_test": 6215,
-  "best_objective": 0.473092,
+  "best_objective": 0.470713,
   "best_params": {
     "row_threshold": 0.4,
     "factor_threshold": 0.45,
     "max_factors": 2
   },
   "best_metrics": {
-    "autonomous_score": 0.449958,
+    "autonomous_score": 0.447759,
     "alpha": 0.5,
     "any_precision": 0.290323,
     "any_recall": 0.633431,
     "any_f1": 0.398157,
-    "factor_jaccard_on_true_positive_rows": 0.50176,
+    "factor_jaccard_on_true_positive_rows": 0.497361,
     "positive_rate_true": 0.045717,
     "positive_rate_pred": 0.099745
   },
-  "validation_test_positive_rate_during_search": 0.102816,
+  "validation_test_positive_rate_during_search": 0.102655,
   "grid_combinations_tried": 234,
-  "submission_positive_rows": 670,
-  "submission_positive_rate": 0.107804
+  "submission_positive_rows": 675,
+  "submission_positive_rate": 0.108608
 }

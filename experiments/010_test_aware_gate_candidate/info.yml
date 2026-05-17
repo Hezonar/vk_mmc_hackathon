@@ -2,10 +2,10 @@ status: done
 hypothesis: 'Use test legally: transductive TF-IDF vocabulary and threshold constraints,
   while labels come only from train.'
 local_validation:
-  autonomous_score_alpha_0_5: 0.449958
-  objective: 0.473092
+  autonomous_score_alpha_0_5: 0.447759
+  objective: 0.470713
   any_f1: 0.398157
-  jaccard: 0.50176
+  jaccard: 0.497361
   positive_rate_pred: 0.099745
   positive_rate_true: 0.045717
 leaderboard: {}

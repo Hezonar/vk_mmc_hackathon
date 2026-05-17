@@ -53,3 +53,9 @@ experiments:
     private: null
     test_positive_rate: 0.1007
     note: "Production artifact: exp006 candidate-level model trained on all train rows and wired into the app."
+  - id: "010_test_aware_gate_candidate"
+    local_autonomous_score_alpha_0_5: 0.447759
+    public: null
+    private: null
+    test_positive_rate: 0.1086
+    note: "Transductive TF-IDF on train+test plus row gate and candidate model; current submission candidate."
