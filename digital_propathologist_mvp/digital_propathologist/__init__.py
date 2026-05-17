@@ -1,1 +1,1 @@
-"""Digital propathologist MVP package."""
+"""Digital propathologist workstation package."""

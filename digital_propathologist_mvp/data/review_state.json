@@ -1,0 +1,13 @@
+{
+  "current_date": "2026-05-17",
+  "daily_target": 50,
+  "reviewed_today": [
+    {
+      "key": "236355::1015893517",
+      "patient_id": "236355",
+      "exam_row_id": "1015893517",
+      "reviewed_at": "2026-05-17T13:01:50"
+    }
+  ],
+  "history": []
+}

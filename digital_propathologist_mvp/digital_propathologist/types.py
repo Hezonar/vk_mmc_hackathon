@@ -5,6 +5,7 @@ from typing import Any, Literal
 
 FactorColor = Literal["gray", "green", "red", "yellow", "blue"]
 CardStatus = Literal["normal", "warning", "risk", "empty"]
+MlVerdict = Literal["fit", "not_fit", "insufficient", "not_run"]
 
 
 @dataclass
@@ -79,7 +80,10 @@ class PredictionResult:
     factors: list[str] = field(default_factory=list)
     status: Literal["not_run", "ok", "risk", "insufficient"] = "not_run"
     explanation: str = "Предсказание еще не выполнено."
-    used_stub: bool = True
+    ml_verdict: MlVerdict = "not_run"
+    model_version: str = ""
+    threshold: float | None = None
+    factor_scores: list[dict[str, Any]] = field(default_factory=list)
     linked_factors: dict[str, list[int]] = field(default_factory=dict)
 
     @property

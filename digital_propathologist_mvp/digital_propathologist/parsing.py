@@ -133,40 +133,10 @@ def patient_exam_summary(df: pd.DataFrame, patient_id: str) -> pd.DataFrame:
     rows = []
     for _, row in sub.iterrows():
         conclusions, warnings = parse_specialist_conclusions(row.get("specialist_conclusions", ""))
-        factors = split_factors(row.get("assigned_harmful_factors", ""))
-        contraindicated = split_factors(row.get("contraindicated_factors", ""))
-        med_exam_id = str(row.get("medical_exam_id", "") or "").strip()
-        rows.append(
-            {
-                EXAM_ID_COLUMN: str(row.get("exam_row_id", "")),
-                "Идентификатор профосмотра": med_exam_id if med_exam_id else "не передано",
-                "Дата заключения профпатолога": str(row.get("consultation_date", ""))[:10] or "—",
-                "Вредные факторы/виды работ по направлению": "; ".join(factors) if factors else "—",
-                "Заключений профильных врачей": len(conclusions),
-                "Комплектность данных": "ошибка JSON" if warnings else ("нет заключений" if len(conclusions) == 0 else "данные есть"),
-                "Статус предсказания": "целевая колонка заполнена" if contraindicated else "не рассчитано",
-            }
-        )
-    return pd.DataFrame(rows)
-
-
-def patient_exam_summary(df: pd.DataFrame, patient_id: str) -> pd.DataFrame:
-    sub = df[df["patient_id"].astype(str) == str(patient_id)].copy()
-    rows = []
-    for _, row in sub.iterrows():
-        conclusions, warnings = parse_specialist_conclusions(row.get("specialist_conclusions", ""))
         complete_conclusions = [item for item in conclusions if item.has_meaningful_result]
         factors = split_factors(row.get("assigned_harmful_factors", ""))
         contraindicated = split_factors(row.get("contraindicated_factors", ""))
         med_exam_id = str(row.get("medical_exam_id", "") or "").strip()
-        if warnings:
-            completeness = "ошибка JSON"
-        elif not conclusions:
-            completeness = "нет заключений"
-        elif len(complete_conclusions) == len(conclusions):
-            completeness = "данные есть"
-        else:
-            completeness = "недостаточно данных"
         rows.append(
             {
                 EXAM_ID_COLUMN: str(row.get("exam_row_id", "")),
@@ -174,7 +144,6 @@ def patient_exam_summary(df: pd.DataFrame, patient_id: str) -> pd.DataFrame:
                 "Дата заключения профпатолога": str(row.get("consultation_date", ""))[:10] or "-",
                 "Вредные факторы/виды работ по направлению": "; ".join(factors) if factors else "-",
                 "Заключений профильных врачей": f"{len(complete_conclusions)} / {len(conclusions)}",
-                "Комплектность данных": completeness,
                 "Статус предсказания": "целевая колонка заполнена" if contraindicated else "не рассчитано",
             }
         )

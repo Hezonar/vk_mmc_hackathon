@@ -1,4 +1,5 @@
 import json
+import pickle
 import re
 import sys
 from pathlib import Path
@@ -141,8 +142,25 @@ def update_info(metrics: dict, submission_path: Path) -> None:
         "validation_predictions": "experiments/006_candidate_factor_binary/validation_predictions.csv",
         "metrics": "experiments/006_candidate_factor_binary/metrics.json",
         "validation_candidates": "experiments/006_candidate_factor_binary/validation_candidates.csv",
+        "model": "experiments/006_candidate_factor_binary/model.pkl",
     }
     info_path.write_text(yaml.safe_dump(info, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+
+def save_model_artifact(vectorizer: DualTfidf, model: LogisticRegression, params: dict, threshold: float) -> Path:
+    artifact_path = EXPERIMENT_DIR / "model.pkl"
+    artifact = {
+        "name": params["name"],
+        "model_version": params["name"],
+        "params": params,
+        "factor_threshold": float(threshold),
+        "word_vectorizer": vectorizer.word,
+        "char_vectorizer": vectorizer.char,
+        "model": model,
+    }
+    with artifact_path.open("wb") as f:
+        pickle.dump(artifact, f, protocol=pickle.HIGHEST_PROTOCOL)
+    return artifact_path
 
 
 def main() -> None:
@@ -197,6 +215,7 @@ def main() -> None:
     x_all = vectorizer.fit_transform(all_candidates["text"].tolist())
     model = LogisticRegression(**params["model"])
     model.fit(x_all, all_candidates["target"].astype(int))
+    artifact_path = save_model_artifact(vectorizer, model, params, best["params"]["factor_threshold"])
 
     test_candidates = make_candidate_frame(test_df, params, has_target=False)
     x_test = vectorizer.transform(test_candidates["text"].tolist())
@@ -222,6 +241,7 @@ def main() -> None:
         "grid_combinations_tried": tried,
         "submission_positive_rows": int(sum(bool(x) for x in test_pred)),
         "submission_positive_rate": round(float(np.mean([bool(x) for x in test_pred])), 6),
+        "model_artifact": str(artifact_path.relative_to(ROOT)),
     }
     (EXPERIMENT_DIR / "metrics.json").write_text(json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8")
     update_info(metrics, submission_path)

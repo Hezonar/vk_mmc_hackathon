@@ -82,7 +82,8 @@ def _insufficient_prediction(exam: Exam, reason: str) -> PredictionResult:
         factors=[],
         status="insufficient",
         explanation=reason,
-        used_stub=False,
+        ml_verdict="insufficient",
+        model_version="006_candidate_factor_binary",
         linked_factors={},
     )
 
@@ -116,6 +117,14 @@ def predict_exam_with_candidate_model(exam: Exam) -> PredictionResult:
         reverse=True,
     )
     factors = [factor for factor, score in ranked if float(score) >= threshold]
+    factor_scores = [
+        {
+            "factor": factor,
+            "score": round(float(score), 3),
+            "status": "not_fit" if float(score) >= threshold else "fit",
+        }
+        for factor, score in ranked
+    ]
     status = "risk" if factors else "ok"
     score_preview = ", ".join(f"{factor}: {float(score):.2f}" for factor, score in ranked[:4])
     model_version = artifact.get("model_version", "006_candidate_factor_binary")
@@ -127,7 +136,10 @@ def predict_exam_with_candidate_model(exam: Exam) -> PredictionResult:
             f"ML-модель {model_version} оценила назначенные факторы по текстам заключений. "
             f"Порог: {threshold:.2f}. Топ скорингов: {score_preview or 'нет факторов'}."
         ),
-        used_stub=False,
+        ml_verdict="not_fit" if factors else "fit",
+        model_version=model_version,
+        threshold=threshold,
+        factor_scores=factor_scores,
     )
     result.linked_factors = build_highlight_links(exam, result)
     return result
