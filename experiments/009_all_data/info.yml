@@ -1,0 +1,10 @@
+status: done
+hypothesis: Train exp006 candidate-level model on all available labeled rows and ship
+  artifact into the application.
+local_validation: {}
+leaderboard:
+  inherited_from_exp006_public: 0.44593
+outputs:
+  artifact: src\app\profpath\model_artifacts\exp009_all_data.joblib
+  submission: experiments/009_all_data/submission.csv
+  summary: experiments/009_all_data/summary.json

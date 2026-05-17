@@ -1,0 +1,11 @@
+{
+  "experiment": "009_all_data",
+  "artifact_path": "src\\app\\profpath\\model_artifacts\\exp009_all_data.joblib",
+  "train_rows": 24861,
+  "test_rows": 6215,
+  "candidate_rows_train": 111029,
+  "candidate_positive_rate_train": 0.014582,
+  "threshold": 0.53,
+  "submission_positive_rows": 626,
+  "submission_positive_rate": 0.100724
+}
