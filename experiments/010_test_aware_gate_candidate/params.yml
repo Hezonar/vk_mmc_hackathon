@@ -22,27 +22,27 @@ row_word_vectorizer:
   max_df: 0.95
   ngram_range: [1, 2]
   sublinear_tf: true
-  max_features: 120000
+  max_features: 80000
 row_char_vectorizer:
   analyzer: char_wb
-  min_df: 3
+  min_df: 5
   max_df: 0.98
-  ngram_range: [3, 5]
+  ngram_range: [4, 5]
   sublinear_tf: true
-  max_features: 60000
+  max_features: 25000
 candidate_word_vectorizer:
   min_df: 2
   max_df: 0.96
   ngram_range: [1, 2]
   sublinear_tf: true
-  max_features: 180000
+  max_features: 90000
 candidate_char_vectorizer:
   analyzer: char_wb
-  min_df: 3
+  min_df: 5
   max_df: 0.98
-  ngram_range: [3, 5]
+  ngram_range: [4, 5]
   sublinear_tf: true
-  max_features: 90000
+  max_features: 30000
 row_model:
   max_iter: 1000
   solver: liblinear
@@ -58,8 +58,8 @@ candidate_model:
     0: 1.0
     1: 16.0
 prediction:
-  row_threshold_grid: [0.25, 0.85, 0.025]
-  factor_threshold_grid: [0.35, 0.9, 0.01]
+  row_threshold_grid: [0.3, 0.7, 0.05]
+  factor_threshold_grid: [0.45, 0.75, 0.025]
   max_factors_grid: [1, 2]
   test_positive_rate_min: 0.075
   test_positive_rate_max: 0.115
